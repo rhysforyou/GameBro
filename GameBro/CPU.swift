@@ -33,7 +33,7 @@ public struct CPU {
     public var SP: UInt16 = 0
     
     /// The program counter
-    public var PC: UInt16 = 0
+    public var PC: UInt16 = 0x100
     
     /// The A register
     public var A: UInt8 = 0
@@ -58,6 +58,13 @@ public struct CPU {
     
     /// The L register
     public var L: UInt8 = 0
+    
+    public var memory: Memory
+    
+    public init(memory: Memory) {
+        self.memory = memory
+    }
+    
 }
 
 // Pseudo registers

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5721F4661C96BEDC000ACDEE /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721F4651C96BEDC000ACDEE /* Memory.swift */; };
 		57E7E1FB1C96AC3700957AA8 /* GameBro.h in Headers */ = {isa = PBXBuildFile; fileRef = 57E7E1FA1C96AC3700957AA8 /* GameBro.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		57E7E2021C96AC3700957AA8 /* GameBro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57E7E1F71C96AC3700957AA8 /* GameBro.framework */; };
 		57E7E2071C96AC3700957AA8 /* GameBroTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E7E2061C96AC3700957AA8 /* GameBroTests.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5721F4651C96BEDC000ACDEE /* Memory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		57E7E1F71C96AC3700957AA8 /* GameBro.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GameBro.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57E7E1FA1C96AC3700957AA8 /* GameBro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameBro.h; sourceTree = "<group>"; };
 		57E7E1FC1C96AC3700957AA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 				57E7E1FA1C96AC3700957AA8 /* GameBro.h */,
 				57E7E1FC1C96AC3700957AA8 /* Info.plist */,
 				57E7E2111C96AF5000957AA8 /* CPU.swift */,
+				5721F4651C96BEDC000ACDEE /* Memory.swift */,
 			);
 			path = GameBro;
 			sourceTree = "<group>";
@@ -197,6 +200,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5721F4661C96BEDC000ACDEE /* Memory.swift in Sources */,
 				57E7E2121C96AF5000957AA8 /* CPU.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -386,6 +390,7 @@
 				57E7E20D1C96AC3700957AA8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		57E7E20E1C96AC3700957AA8 /* Build configuration list for PBXNativeTarget "GameBroTests" */ = {
 			isa = XCConfigurationList;
@@ -394,6 +399,7 @@
 				57E7E2101C96AC3700957AA8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
