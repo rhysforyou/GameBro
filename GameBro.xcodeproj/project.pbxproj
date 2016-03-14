@@ -10,6 +10,7 @@
 		57E7E1FB1C96AC3700957AA8 /* GameBro.h in Headers */ = {isa = PBXBuildFile; fileRef = 57E7E1FA1C96AC3700957AA8 /* GameBro.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		57E7E2021C96AC3700957AA8 /* GameBro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57E7E1F71C96AC3700957AA8 /* GameBro.framework */; };
 		57E7E2071C96AC3700957AA8 /* GameBroTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E7E2061C96AC3700957AA8 /* GameBroTests.swift */; };
+		57E7E2121C96AF5000957AA8 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E7E2111C96AF5000957AA8 /* CPU.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		57E7E2011C96AC3700957AA8 /* GameBroTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameBroTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		57E7E2061C96AC3700957AA8 /* GameBroTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBroTests.swift; sourceTree = "<group>"; };
 		57E7E2081C96AC3700957AA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		57E7E2111C96AF5000957AA8 /* CPU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CPU.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			children = (
 				57E7E1FA1C96AC3700957AA8 /* GameBro.h */,
 				57E7E1FC1C96AC3700957AA8 /* Info.plist */,
+				57E7E2111C96AF5000957AA8 /* CPU.swift */,
 			);
 			path = GameBro;
 			sourceTree = "<group>";
@@ -194,6 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57E7E2121C96AF5000957AA8 /* CPU.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +309,7 @@
 		57E7E20C1C96AC3700957AA8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -317,12 +322,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.rpowell.GameBro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		57E7E20D1C96AC3700957AA8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;

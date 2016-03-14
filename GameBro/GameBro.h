@@ -1,11 +1,3 @@
-//
-//  GameBro.h
-//  GameBro
-//
-//  Created by Rhys Powell on 14/03/2016.
-//  Copyright © 2016 Rhys Powell. All rights reserved.
-//
-
 #import <Cocoa/Cocoa.h>
 
 //! Project version number for GameBro.
