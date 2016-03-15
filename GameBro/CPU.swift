@@ -61,7 +61,7 @@ public struct CPU {
     
     public var memory: Memory
     
-    public var cycleCount: UInt64 = 0
+    public var cycle: UInt64 = 0
     
     public init(memory: Memory) {
         self.memory = memory

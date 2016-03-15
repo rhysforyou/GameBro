@@ -8,13 +8,18 @@
 
 import Foundation
 
-extension CPU {
-    mutating func immediate(cyclesSpent: UInt64) -> UInt8 {
+public extension CPU {
+    public mutating func immediate(cyclesSpent: UInt64) -> UInt8 {
         let operand = memory.read(PC &+ 1)
         
-        cycleCount += cyclesSpent
+        cycle += cyclesSpent
         PC += 2
         
         return operand
+    }
+    
+    public mutating func implied(cyclesSpent: UInt64) {
+        cycle += cyclesSpent
+        PC += 1
     }
 }
