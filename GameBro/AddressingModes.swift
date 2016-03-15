@@ -80,4 +80,11 @@ public extension CPU {
         cycle += cyclesSpent
         PC += 1
     }
+    
+    public mutating func register(register: UInt8, _ cyclesSpent: UInt64) -> UInt8 {
+        cycle += cyclesSpent
+        PC += 1
+        
+        return register
+    }
 }
