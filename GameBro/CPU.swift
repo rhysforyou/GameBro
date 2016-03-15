@@ -61,13 +61,15 @@ public struct CPU {
     
     public var memory: Memory
     
+    public var cycleCount: UInt64 = 0
+    
     public init(memory: Memory) {
         self.memory = memory
     }
     
 }
 
-// Pseudo registers
+// Pseudo 16-bit registers
 public extension CPU {
     public var AF: UInt16 {
         get {

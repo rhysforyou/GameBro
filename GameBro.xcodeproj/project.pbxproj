@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5720421C1C97A41A00AB9BE9 /* CPUTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5720421B1C97A41A00AB9BE9 /* CPUTests.swift */; };
+		5720421E1C97B5C300AB9BE9 /* Instructions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5720421D1C97B5C300AB9BE9 /* Instructions.swift */; };
+		572042201C97B67900AB9BE9 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5720421F1C97B67900AB9BE9 /* Step.swift */; };
+		572042221C97BA1E00AB9BE9 /* AddressingModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 572042211C97BA1E00AB9BE9 /* AddressingModes.swift */; };
 		5721F4661C96BEDC000ACDEE /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721F4651C96BEDC000ACDEE /* Memory.swift */; };
 		57E7E1FB1C96AC3700957AA8 /* GameBro.h in Headers */ = {isa = PBXBuildFile; fileRef = 57E7E1FA1C96AC3700957AA8 /* GameBro.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		57E7E2021C96AC3700957AA8 /* GameBro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57E7E1F71C96AC3700957AA8 /* GameBro.framework */; };
@@ -25,6 +29,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5720421B1C97A41A00AB9BE9 /* CPUTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CPUTests.swift; sourceTree = "<group>"; };
+		5720421D1C97B5C300AB9BE9 /* Instructions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instructions.swift; sourceTree = "<group>"; };
+		5720421F1C97B67900AB9BE9 /* Step.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
+		572042211C97BA1E00AB9BE9 /* AddressingModes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressingModes.swift; sourceTree = "<group>"; };
 		5721F4651C96BEDC000ACDEE /* Memory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		57E7E1F71C96AC3700957AA8 /* GameBro.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GameBro.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57E7E1FA1C96AC3700957AA8 /* GameBro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameBro.h; sourceTree = "<group>"; };
@@ -79,6 +87,9 @@
 				57E7E1FC1C96AC3700957AA8 /* Info.plist */,
 				57E7E2111C96AF5000957AA8 /* CPU.swift */,
 				5721F4651C96BEDC000ACDEE /* Memory.swift */,
+				5720421D1C97B5C300AB9BE9 /* Instructions.swift */,
+				5720421F1C97B67900AB9BE9 /* Step.swift */,
+				572042211C97BA1E00AB9BE9 /* AddressingModes.swift */,
 			);
 			path = GameBro;
 			sourceTree = "<group>";
@@ -87,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				57E7E2061C96AC3700957AA8 /* GameBroTests.swift */,
+				5720421B1C97A41A00AB9BE9 /* CPUTests.swift */,
 				57E7E2081C96AC3700957AA8 /* Info.plist */,
 			);
 			path = GameBroTests;
@@ -200,7 +212,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				572042221C97BA1E00AB9BE9 /* AddressingModes.swift in Sources */,
 				5721F4661C96BEDC000ACDEE /* Memory.swift in Sources */,
+				572042201C97B67900AB9BE9 /* Step.swift in Sources */,
+				5720421E1C97B5C300AB9BE9 /* Instructions.swift in Sources */,
 				57E7E2121C96AF5000957AA8 /* CPU.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -209,6 +224,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5720421C1C97A41A00AB9BE9 /* CPUTests.swift in Sources */,
 				57E7E2071C96AC3700957AA8 /* GameBroTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
