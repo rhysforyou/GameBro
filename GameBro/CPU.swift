@@ -76,7 +76,7 @@ public extension CPU {
             return UInt16(A) << 8 | UInt16(F)
         }
         set {
-            A = UInt8(newValue << 8)
+            A = UInt8(newValue >> 8)
             F = UInt8(newValue & 0x00FF)
         }
     }
@@ -86,7 +86,7 @@ public extension CPU {
             return UInt16(B) << 8 | UInt16(C)
         }
         set {
-            B = UInt8(newValue << 8)
+            B = UInt8(newValue >> 8)
             C = UInt8(newValue & 0x00FF)
         }
     }
@@ -96,7 +96,7 @@ public extension CPU {
             return UInt16(D) << 8 | UInt16(E)
         }
         set {
-            D = UInt8(newValue << 8)
+            D = UInt8(newValue >> 8)
             E = UInt8(newValue & 0x00FF)
         }
     }
@@ -106,7 +106,7 @@ public extension CPU {
             return UInt16(H) << 8 | UInt16(L)
         }
         set {
-            H = UInt8(newValue << 8)
+            H = UInt8(newValue >> 8)
             L = UInt8(newValue & 0x00FF)
         }
     }
