@@ -170,6 +170,40 @@ class CPUTests : XCTestCase {
             0x5F,       // LD E, A
             0x67,       // LD H, A
             0x6F,       // LD L, A
+            
+            0x26, 0xD0, // LD H $D0
+            0x2E, 0x01, // LD L $01
+            0x36, 0xF1, // LD (HL), $F1
+            0x2E, 0x02, // LD L $02
+            0x36, 0xF2, // LD (HL), $F2
+            0x06, 0xD0, // LD B $D0
+            0x0E, 0x01, // LD C $01
+            0x16, 0xD0, // LD D $D0
+            0x1E, 0x02, // LD E $02
+            0x0A,       // LD A, (BC)
+            0x1A,       // LD A, (DE)
+            
+            0xFA, 0x01, 0xD0, // LD A, ($D001)
+            
+            0x26, 0xDF, // LD H $DF
+            0x2E, 0xA0, // LD L $A0
+            0x36, 0xF0, // LD (HL), $F0
+            0x2E, 0xA1, // LD L $A1
+            0x36, 0xF1, // LD (HL), $F1
+            0xF0, 0xA0, // LD A, ($F0)
+            0x0E, 0xA1, // LD C $A1
+            0xF2,       // LD A, (C)
+            
+            0x3E, 0xAA, // LD A $AA
+            0xEA, 0xA0, 0xDF, // LD ($DFA0), A
+            0x3E, 0xBB, // LD A $BB
+            0xE0, 0xA1, // LD ($A1), A
+            0x3E, 0xCC, // LD A $CC
+            0x0E, 0xA2, // LD C $A2
+            0xE2,       // LD (C), A
+            0xF0, 0xA0, // LD A, ($A0)
+            0xF0, 0xA1, // LD A, ($A1)
+            0xF0, 0xA2, // LD A, ($A2)
         ]
         
         // Load program into RAM
@@ -335,6 +369,24 @@ class CPUTests : XCTestCase {
         XCTAssert(cpu.H == cpu.A)
         cpu.step()
         XCTAssert(cpu.L == cpu.A)
+        
+        10.times { cpu.step() }
+        XCTAssert(cpu.A == UInt8(0xF1))
+        cpu.step()
+        XCTAssert(cpu.A == UInt8(0xF2))
+        cpu.step()
+        XCTAssert(cpu.A == UInt8(0xF1))
+        6.times { cpu.step() }
+        XCTAssert(cpu.A == UInt8(0xF0))
+        2.times { cpu.step() }
+        XCTAssert(cpu.A == UInt8(0xF1))
+        
+        8.times { cpu.step() }
+        XCTAssert(cpu.A == UInt8(0xAA))
+        cpu.step()
+        XCTAssert(cpu.A == UInt8(0xBB))
+        cpu.step()
+        XCTAssert(cpu.A == UInt8(0xCC))
     }
     
 }

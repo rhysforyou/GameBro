@@ -38,8 +38,8 @@ public struct Memory {
             break
         case 0xFF00..<0xFF4C: // I/O Ports
             break
-        case 0xFF80..<0xFFFF: // Internal RAM
-            break
+        case 0xFF80..<0xFFFF: // Zero-page RAM
+            return RAM[Int(address % 0x2000)]
         case 0xFFFF:          // Interrupt enable register
             break
         default:
@@ -74,8 +74,8 @@ public struct Memory {
             break
         case 0xFF00..<0xFF4C: // I/O Ports
             break
-        case 0xFF80..<0xFFFF: // Internal RAM
-            break
+        case 0xFF80..<0xFFFF: // Zero-page RAM
+            RAM[Int(address % 0x2000)] = value
         case 0xFFFF:          // Interrupt enable register
             break
         default:
