@@ -9,7 +9,7 @@
 import Foundation
 
 public extension CPU {
-    public mutating func absoluteBC(cyclesSpent: UInt64) -> UInt8 {
+    public mutating func absoluteBC(cycles cyclesSpent: UInt64) -> UInt8 {
         let operand = memory.read(BC)
         
         cycle += cyclesSpent
@@ -18,7 +18,7 @@ public extension CPU {
         return operand
     }
     
-    public mutating func absoluteDE(cyclesSpent: UInt64) -> UInt8 {
+    public mutating func absoluteDE(cycles cyclesSpent: UInt64) -> UInt8 {
         let operand = memory.read(DE)
         
         cycle += cyclesSpent
@@ -27,7 +27,7 @@ public extension CPU {
         return operand
     }
     
-    public mutating func absoluteHL(cyclesSpent: UInt64) -> UInt8 {
+    public mutating func absoluteHL(cycles cyclesSpent: UInt64) -> UInt8 {
         let operand = memory.read(HL)
         
         cycle += cyclesSpent
@@ -36,7 +36,7 @@ public extension CPU {
         return operand
     }
     
-    public mutating func absoluteHLD(cyclesSpent: UInt64) -> Address {
+    public mutating func absoluteHLD(cycles cyclesSpent: UInt64) -> Address {
         let address = Address(HL)
         HL -= 1
         
@@ -46,7 +46,7 @@ public extension CPU {
         return address
     }
     
-    public mutating func absoluteHLI(cyclesSpent: UInt64) -> Address {
+    public mutating func absoluteHLI(cycles cyclesSpent: UInt64) -> Address {
         let address = Address(HL)
         HL += 1
         
@@ -56,7 +56,7 @@ public extension CPU {
         return address
     }
     
-    public mutating func immediate(cyclesSpent: UInt64) -> UInt8 {
+    public mutating func immediate(cycles cyclesSpent: UInt64) -> UInt8 {
         let operand = memory.read(PC &+ 1)
         
         cycle += cyclesSpent
@@ -65,7 +65,7 @@ public extension CPU {
         return operand
     }
     
-    public mutating func immediate16(cyclesSpent: UInt64) -> UInt16 {
+    public mutating func immediate16(cycles cyclesSpent: UInt64) -> UInt16 {
         let low  = memory.read(PC &+ 1)
         let high = memory.read(PC &+ 2)
         let operand = UInt16(high) << 8 | UInt16(low)
@@ -76,12 +76,12 @@ public extension CPU {
         return operand
     }
     
-    public mutating func implied(cyclesSpent: UInt64) {
+    public mutating func implied(cycles cyclesSpent: UInt64) {
         cycle += cyclesSpent
         PC += 1
     }
     
-    public mutating func register(register: UInt8, _ cyclesSpent: UInt64) -> UInt8 {
+    public mutating func register(register: UInt8, cycles cyclesSpent: UInt64) -> UInt8 {
         cycle += cyclesSpent
         PC += 1
         
