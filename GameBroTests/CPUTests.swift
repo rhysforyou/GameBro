@@ -30,7 +30,7 @@ class CPUTests : XCTestCase {
     func testEcho() {
         var cpu = CPU(memory: Memory())
         
-        cpu.LD(address: Address(0xC000), 0xFF)
+        cpu.LD(address: Address(0xC000), UInt8(0xFF))
         cpu.LD(&cpu.A, address: Address(0xE000))
         
         XCTAssert(cpu.A == UInt8(0xFF), "Echo should contain same data as main RAM")
@@ -387,6 +387,90 @@ class CPUTests : XCTestCase {
         XCTAssert(cpu.A == UInt8(0xBB))
         cpu.step()
         XCTAssert(cpu.A == UInt8(0xCC))
+    }
+    
+    func test16BitLoads() {
+        var cpu = CPU(memory: Memory())
+        let program: [UInt8] = [
+            // LD r, d16
+            0x01, 0x23, 0x01, // LD BC 0x0123
+            0x11, 0x67, 0x45, // LD DE 0x4567
+            0x21, 0xAB, 0x89, // LD HL 0x89AB
+            0x31, 0xEF, 0xCD, // LD SP 0xCDEF
+            
+            0x21, 0xEF, 0xFF, // LD HL 0xFFEF
+            0xF9,             // LD SP, HL
+            
+            0xF8, 0xF0,       // LD HL, SP+0xF0 (-16)
+            0xF8, 0x10,       // LD HL, SP+0xF0 (+16)
+            
+            0x21, 0xAB, 0x89, // LD HL 0x89AB
+            0xF5,             // PUSH AF
+            0xC5,             // PUSH BC
+            0xD5,             // PUSH DE
+            0xE5,             // PUSH HL
+            0x21, 0xEF, 0xCD, // LD HL 0xCDEF
+            0xE5,             // PUSH HL
+            0xF1,             // POP AF
+            0xC1,             // POP BC
+            0xD1,             // POP DE
+            0xE1,             // POP HL
+            
+            0x08, 0x00, 0xD0, // LD ($D000), SP
+            0x21, 0x00, 0xD0, // LD HL, $D000
+            0x2A,             // LD A, (HL+)
+            0x2A,             // LD A, (HL+)
+        ]
+        
+        
+        // Load program into RAM
+        for (offset, byte) in program.enumerate() {
+            cpu.memory.write(0xC000 + Address(offset), byte)
+        }
+        
+        // Start program execution from RAM
+        cpu.PC = 0xC000
+        
+        cpu.step()
+        XCTAssert(cpu.BC == 0x0123)
+        XCTAssert(cpu.B == 0x01)
+        XCTAssert(cpu.C == 0x23)
+        
+        cpu.step()
+        XCTAssert(cpu.DE == 0x4567)
+        XCTAssert(cpu.D == 0x45)
+        XCTAssert(cpu.E == 0x67)
+        
+        cpu.step()
+        XCTAssert(cpu.HL == 0x89AB)
+        XCTAssert(cpu.H == 0x89)
+        XCTAssert(cpu.L == 0xAB)
+        
+        cpu.step()
+        XCTAssert(cpu.SP == 0xCDEF)
+        
+        2.times { cpu.step() }
+        XCTAssert(cpu.SP == 0xFFEF)
+        
+        cpu.step()
+        XCTAssert(cpu.HL == 0xFFDF)
+        XCTAssert(cpu.CFlag == true)
+        XCTAssert(cpu.HFlag == true)
+        cpu.step()
+        XCTAssert(cpu.HL == 0xFFFF)
+        XCTAssert(cpu.CFlag == false)
+        XCTAssert(cpu.HFlag == true)
+        
+        11.times { cpu.step() }
+        XCTAssert(cpu.AF == 0xCDEF)
+        XCTAssert(cpu.BC == 0x89AB)
+        XCTAssert(cpu.DE == 0x4567)
+        XCTAssert(cpu.HL == 0x0123)
+        
+        3.times { cpu.step() }
+        XCTAssert(cpu.A == cpu.SP.offset)
+        cpu.step()
+        XCTAssert(cpu.A == cpu.SP.page)
     }
     
 }

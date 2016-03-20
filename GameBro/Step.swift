@@ -21,7 +21,7 @@ extension CPU {
         case 0x05: break
         case 0x06: LD(&B, immediate(cycles: 8)) // LD B, d8
         case 0x07: break
-        case 0x08: break
+        case 0x08: LD(address: immediate16(cycles: 20), SP)
         case 0x09: break
         case 0x0A: LD(&A, absoluteBC(cycles: 8)) // LD A, (BC)
         case 0x0B: break
@@ -206,11 +206,11 @@ extension CPU {
         case 0xBE: break
         case 0xBF: break
         case 0xC0: break
-        case 0xC1: break
+        case 0xC1: POP(&BC); implied(cycles: 12) // POP BC
         case 0xC2: break
         case 0xC3: break
         case 0xC4: break
-        case 0xC5: break
+        case 0xC5: PUSH(register16(BC, cycles: 16)) // PUSH BC
         case 0xC6: break
         case 0xC7: break
         case 0xC8: break
@@ -222,10 +222,10 @@ extension CPU {
         case 0xCE: break
         case 0xCF: break
         case 0xD0: break
-        case 0xD1: break
+        case 0xD1: POP(&DE); implied(cycles: 12) // POP DE
         case 0xD2: break
         case 0xD4: break
-        case 0xD5: break
+        case 0xD5: PUSH(register16(DE, cycles: 16)) // PUSH DE
         case 0xD6: break
         case 0xD7: break
         case 0xD8: break
@@ -235,9 +235,9 @@ extension CPU {
         case 0xDE: break
         case 0xDF: break
         case 0xE0: LDH(offset: immediate(cycles: 12), A) // LD ($FF00+a8), A
-        case 0xE1: break
+        case 0xE1: POP(&HL); implied(cycles: 12) // POP HL
         case 0xE2: LDH(offset: C, register(A, cycles: 8)) // LD ($FF00+C), A
-        case 0xE5: break
+        case 0xE5: PUSH(register16(HL, cycles: 16)) // PUSH HL
         case 0xE6: break
         case 0xE7: break
         case 0xE8: break
@@ -246,14 +246,14 @@ extension CPU {
         case 0xEE: break
         case 0xEF: break
         case 0xF0: LDH(&A, offset: immediate(cycles: 12)) // LD A, ($FF00+a8)
-        case 0xF1: break
+        case 0xF1: POP(&AF); implied(cycles: 12) // POP AF
         case 0xF2: LDH(&A, offset: register(C, cycles: 8)) // LD A, ($FF00+C)
         case 0xF3: break
-        case 0xF5: break
+        case 0xF5: PUSH(register16(AF, cycles: 16)) // PUSH AF
         case 0xF6: break
         case 0xF7: break
-        case 0xF8: break
-        case 0xF9: break
+        case 0xF8: LDHL(offset: immediateSigned(cycles: 12)) // LD HL, SP+d8
+        case 0xF9: LD(&SP, register16(HL, cycles: 8)) // LD SP, HL
         case 0xFA: LD(&A, address: immediate16(cycles: 16)) // LD A, (a16)
         case 0xFB: break
         case 0xFE: break

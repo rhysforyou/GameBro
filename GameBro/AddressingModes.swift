@@ -76,12 +76,28 @@ public extension CPU {
         return operand
     }
     
+    public mutating func immediateSigned(cycles cyclesSpent: UInt64) -> Int8 {
+        let operand = Int8(bitPattern: memory.read(PC &+ 1))
+        
+        cycle += cyclesSpent
+        PC += 2
+        
+        return operand
+    }
+    
     public mutating func implied(cycles cyclesSpent: UInt64) {
         cycle += cyclesSpent
         PC += 1
     }
     
     public mutating func register(register: UInt8, cycles cyclesSpent: UInt64) -> UInt8 {
+        cycle += cyclesSpent
+        PC += 1
+        
+        return register
+    }
+    
+    public mutating func register16(register: UInt16, cycles cyclesSpent: UInt64) -> UInt16 {
         cycle += cyclesSpent
         PC += 1
         
