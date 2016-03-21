@@ -141,21 +141,21 @@ extension CPU {
         case 0x7D: LD(&A, register(L, cycles: 4)) // LD A, L
         case 0x7E: LD(&A, absoluteHL(cycles: 8))  // LD A, (HL)
         case 0x7F: LD(&A, register(A, cycles: 4)) // LD A, A
-        case 0x80: ADD(&A, register(B, cycles: 4))
-        case 0x81: ADD(&A, register(C, cycles: 4))
-        case 0x82: ADD(&A, register(D, cycles: 4))
-        case 0x83: ADD(&A, register(E, cycles: 4))
-        case 0x84: ADD(&A, register(H, cycles: 4))
-        case 0x85: ADD(&A, register(L, cycles: 4))
-        case 0x86: ADD(&A, address: immediate16(cycles: 8))
-        case 0x87: ADD(&A, register(A, cycles: 4))
-        case 0x88: break
-        case 0x89: break
-        case 0x8A: break
-        case 0x8B: break
-        case 0x8C: break
-        case 0x8D: break
-        case 0x8E: break
+        case 0x80: ADD(&A, register(B, cycles: 4)) // ADD A, B
+        case 0x81: ADD(&A, register(C, cycles: 4)) // ADD A, C
+        case 0x82: ADD(&A, register(D, cycles: 4)) // ADD A, D
+        case 0x83: ADD(&A, register(E, cycles: 4)) // ADD A, E
+        case 0x84: ADD(&A, register(H, cycles: 4)) // ADD A, H
+        case 0x85: ADD(&A, register(L, cycles: 4)) // ADD A, L
+        case 0x86: ADD(&A, address: register16(HL, cycles: 8)) // ADD A, (HL)
+        case 0x87: ADD(&A, register(A, cycles: 4)) // ADD A, A
+        case 0x88: ADC(&A, register(B, cycles: 4)) // ADC A, B
+        case 0x89: ADC(&A, register(C, cycles: 4)) // ADC A, C
+        case 0x8A: ADC(&A, register(D, cycles: 4)) // ADC A, D
+        case 0x8B: ADC(&A, register(E, cycles: 4)) // ADC A, E
+        case 0x8C: ADC(&A, register(H, cycles: 4)) // ADC A, H
+        case 0x8D: ADC(&A, register(L, cycles: 4)) // ADC A, L
+        case 0x8E: ADC(&A, address: register16(HL, cycles: 8))
         case 0x8F: break
         case 0x90: break
         case 0x91: break
@@ -211,7 +211,7 @@ extension CPU {
         case 0xC3: break
         case 0xC4: break
         case 0xC5: PUSH(register16(BC, cycles: 16)) // PUSH BC
-        case 0xC6: ADD(&A, immediate(cycles: 8))
+        case 0xC6: ADD(&A, immediate(cycles: 8)) // ADD A, d8
         case 0xC7: break
         case 0xC8: break
         case 0xC9: break
@@ -219,7 +219,7 @@ extension CPU {
         case 0xCB: break
         case 0xCC: break
         case 0xCD: break
-        case 0xCE: break
+        case 0xCE: ADC(&A, immediate(cycles: 8)) // ADC A, d8
         case 0xCF: break
         case 0xD0: break
         case 0xD1: POP(&DE); implied(cycles: 12) // POP DE

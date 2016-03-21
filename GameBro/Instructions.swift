@@ -10,6 +10,25 @@ import Foundation
 
 public extension CPU {
     
+    /// `ADC r, d8`
+    public mutating func ADC(inout register: UInt8, _ value: UInt8) {
+        let carry: UInt8 = CFlag ? 1 : 0
+        let high = UInt16(register) + UInt16(value) + UInt16(carry)
+        let low  = (register & 0x0F) + (value & 0x0F) + carry
+        
+        ZFlag = high == 0
+        NFlag = false
+        HFlag = low > 0x0F
+        CFlag = high > 0xFF
+        
+        register = register &+ value &+ carry
+    }
+    
+    /// `ADC r, (a16)`
+    public mutating func ADC(inout register: UInt8, address: Address) {
+        ADC(&register, memory.read(address))
+    }
+    
     /// `ADD r, d8`
     public mutating func ADD(inout register: UInt8, _ value: UInt8) {
         let high = UInt16(register) + UInt16(value)
