@@ -141,14 +141,14 @@ extension CPU {
         case 0x7D: LD(&A, register(L, cycles: 4)) // LD A, L
         case 0x7E: LD(&A, absoluteHL(cycles: 8))  // LD A, (HL)
         case 0x7F: LD(&A, register(A, cycles: 4)) // LD A, A
-        case 0x80: break
-        case 0x81: break
-        case 0x82: break
-        case 0x83: break
-        case 0x84: break
-        case 0x85: break
-        case 0x86: break
-        case 0x87: break
+        case 0x80: ADD(&A, register(B, cycles: 4))
+        case 0x81: ADD(&A, register(C, cycles: 4))
+        case 0x82: ADD(&A, register(D, cycles: 4))
+        case 0x83: ADD(&A, register(E, cycles: 4))
+        case 0x84: ADD(&A, register(H, cycles: 4))
+        case 0x85: ADD(&A, register(L, cycles: 4))
+        case 0x86: ADD(&A, address: immediate16(cycles: 8))
+        case 0x87: ADD(&A, register(A, cycles: 4))
         case 0x88: break
         case 0x89: break
         case 0x8A: break
@@ -211,7 +211,7 @@ extension CPU {
         case 0xC3: break
         case 0xC4: break
         case 0xC5: PUSH(register16(BC, cycles: 16)) // PUSH BC
-        case 0xC6: break
+        case 0xC6: ADD(&A, immediate(cycles: 8))
         case 0xC7: break
         case 0xC8: break
         case 0xC9: break

@@ -10,6 +10,24 @@ import Foundation
 
 public extension CPU {
     
+    /// `ADD r, d8`
+    public mutating func ADD(inout register: UInt8, _ value: UInt8) {
+        let high = UInt16(register) + UInt16(value)
+        let low  = (register & 0x0F) + (value & 0x0F)
+        
+        ZFlag = high == 0
+        NFlag = false
+        HFlag = low > 0x0F
+        CFlag = high > 0xFF
+        
+        register = register &+ value
+    }
+    
+    /// `ADD r, (a16)`
+    public mutating func ADD(inout register: UInt8, address: Address) {
+        ADD(&register, memory.read(address))
+    }
+    
     /// `LD nn, n` - 8-bit load into register
     public mutating func LD(inout register: UInt8, _ value: UInt8) {
         register = value
