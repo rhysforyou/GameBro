@@ -13,8 +13,8 @@ public extension CPU {
     /// `ADC r, d8`
     public mutating func ADC(inout register: UInt8, _ value: UInt8) {
         let carry: UInt8 = CFlag ? 1 : 0
-        let high = UInt16(register) + UInt16(value) + UInt16(carry)
-        let low  = (register & 0x0F) + (value & 0x0F) + carry
+        let high = UInt16(register) &+ UInt16(value) &+ UInt16(carry)
+        let low  = (register & 0x0F) &+ (value & 0x0F) &+ carry
         
         ZFlag = high == 0
         NFlag = false
@@ -31,8 +31,8 @@ public extension CPU {
     
     /// `ADD r, d8`
     public mutating func ADD(inout register: UInt8, _ value: UInt8) {
-        let high = UInt16(register) + UInt16(value)
-        let low  = (register & 0x0F) + (value & 0x0F)
+        let high = UInt16(register) &+ UInt16(value)
+        let low  = (register & 0x0F) &+ (value & 0x0F)
         
         ZFlag = high == 0
         NFlag = false
@@ -112,6 +112,45 @@ public extension CPU {
     public mutating func POP(inout register: UInt16) {
         register = memory.read16(SP)
         SP += 2
+    }
+    
+    
+    
+    /// `ADC r, d8`
+    public mutating func SBC(inout register: UInt8, _ value: UInt8) {
+        let carry: UInt8 = CFlag ? 1 : 0
+        let high = UInt16(register) &- UInt16(value) &- UInt16(carry)
+        let low  = (register & 0x0F) &- (value & 0x0F) &- carry
+        
+        ZFlag = high == 0
+        NFlag = true
+        HFlag = low > 0x0F
+        CFlag = high > 0xFF
+        
+        register = register &- value &- carry
+    }
+    
+    /// `ADC r, (a16)`
+    public mutating func SBC(inout register: UInt8, address: Address) {
+        ADC(&register, memory.read(address))
+    }
+    
+    /// `ADD r, d8`
+    public mutating func SUB(inout register: UInt8, _ value: UInt8) {
+        let high = UInt16(register) &- UInt16(value)
+        let low  = (register & 0x0F) &- (value & 0x0F)
+        
+        ZFlag = high == 0
+        NFlag = true
+        HFlag = low > 0x0F
+        CFlag = high > 0xFF
+        
+        register = register &- value
+    }
+    
+    /// `ADD r, (a16)`
+    public mutating func SUB(inout register: UInt8, address: Address) {
+        ADD(&register, memory.read(address))
     }
     
 }

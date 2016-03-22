@@ -155,24 +155,24 @@ extension CPU {
         case 0x8B: ADC(&A, register(E, cycles: 4)) // ADC A, E
         case 0x8C: ADC(&A, register(H, cycles: 4)) // ADC A, H
         case 0x8D: ADC(&A, register(L, cycles: 4)) // ADC A, L
-        case 0x8E: ADC(&A, address: register16(HL, cycles: 8))
-        case 0x8F: break
-        case 0x90: break
-        case 0x91: break
-        case 0x92: break
-        case 0x93: break
-        case 0x94: break
-        case 0x95: break
-        case 0x96: break
-        case 0x97: break
-        case 0x98: break
-        case 0x99: break
-        case 0x9A: break
-        case 0x9B: break
-        case 0x9C: break
-        case 0x9D: break
-        case 0x9E: break
-        case 0x9F: break
+        case 0x8E: ADC(&A, address: register16(HL, cycles: 8)) // ADC A, (HL)
+        case 0x8F: ADC(&A, register(A, cycles: 4)) // ADC A, A
+        case 0x90: SUB(&A, register(B, cycles: 4)) // SUB A, B
+        case 0x91: SUB(&A, register(C, cycles: 4)) // SUB A, C
+        case 0x92: SUB(&A, register(D, cycles: 4)) // SUB A, D
+        case 0x93: SUB(&A, register(E, cycles: 4)) // SUB A, E
+        case 0x94: SUB(&A, register(H, cycles: 4)) // SUB A, H
+        case 0x95: SUB(&A, register(L, cycles: 4)) // SUB A, L
+        case 0x96: SUB(&A, address: register16(HL, cycles: 8)) // SUB A, (HL)
+        case 0x97: SUB(&A, register(A, cycles: 4)) // SUB A, A
+        case 0x98: SBC(&A, register(B, cycles: 4)) // SBC A, B
+        case 0x99: SBC(&A, register(C, cycles: 4)) // SBC A, C
+        case 0x9A: SBC(&A, register(D, cycles: 4)) // SBC A, D
+        case 0x9B: SBC(&A, register(E, cycles: 4)) // SBC A, E
+        case 0x9C: SBC(&A, register(H, cycles: 4)) // SBC A, H
+        case 0x9D: SBC(&A, register(L, cycles: 4)) // SBC A, L
+        case 0x9E: SBC(&A, address: register16(HL, cycles: 8))  // SBC A, (HL)
+        case 0x9F: SBC(&A, register(A, cycles: 4)) // SBC A, A
         case 0xA0: break
         case 0xA1: break
         case 0xA2: break
