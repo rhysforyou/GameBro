@@ -10,32 +10,32 @@ extension Int {
 }
 
 class CPUTests : XCTestCase {
-    
+
     func testLD() {
         var cpu = CPU(memory: Memory())
-        
+
         cpu.LD(&cpu.A, UInt8(20)) // LD A, 20
         cpu.LD(&cpu.B, cpu.A)     // LD B, A
         cpu.LD(&cpu.A, UInt8(10)) // LD A, 10
-        
-        XCTAssert(cpu.A == UInt8(10), "Accumulator should have value of 10")
-        XCTAssert(cpu.B == UInt8(20), "B register should have value of 20")
-        
+
+        XCTAssertEqual(cpu.A, UInt8(10), "Accumulator should have value of 10")
+        XCTAssertEqual(cpu.B, UInt8(20), "B register should have value of 20")
+
         cpu.LD(address: Address(0xDFFF), cpu.A)  // LD $DFFF, A
         cpu.LD(&cpu.C, address: Address(0xDFFF)) // LD C, $DFFF
-        
-        XCTAssert(cpu.C == UInt8(10), "C register should have value of 10")
+
+        XCTAssertEqual(cpu.C, UInt8(10), "C register should have value of 10")
     }
-    
+
     func testEcho() {
         var cpu = CPU(memory: Memory())
-        
+
         cpu.LD(address: Address(0xC000), UInt8(0xFF))
         cpu.LD(&cpu.A, address: Address(0xE000))
-        
-        XCTAssert(cpu.A == UInt8(0xFF), "Echo should contain same data as main RAM")
+
+        XCTAssertEqual(cpu.A, UInt8(0xFF), "Echo should contain same data as main RAM")
     }
-    
+
     func testStep() {
         var cpu = CPU(memory: Memory())
         let program: [UInt8] = [
@@ -43,25 +43,25 @@ class CPUTests : XCTestCase {
             0x78,       // LD A, B  (4 cycles)
             0x06, 0x20  // LD B, 20 (8 cycles)
         ]
-        
+
         // Load program into RAM
         for (offset, byte) in program.enumerated() {
             cpu.memory.write(0xC000 + Address(offset), byte)
         }
-        
+
         // Start program execution from RAM
         cpu.PC = 0xC000
-        
+
         cpu.step()
-        XCTAssert(cpu.B == UInt8(0x10))
+        XCTAssertEqual(cpu.B, UInt8(0x10))
         cpu.step()
-        XCTAssert(cpu.A == UInt8(0x10))
+        XCTAssertEqual(cpu.A, UInt8(0x10))
         cpu.step()
-        XCTAssert(cpu.B == UInt8(0x20))
-        
-        XCTAssert(cpu.cycle == 20)
+        XCTAssertEqual(cpu.B, UInt8(0x20))
+
+        XCTAssertEqual(cpu.cycle, 20)
     }
-    
+
     func test8BitLoads() {
         var cpu = CPU(memory: Memory())
         let program: [UInt8] = [
@@ -73,7 +73,7 @@ class CPUTests : XCTestCase {
             0x1E, 0x04, // LD E, $04
             0x26, 0x05, // LD H, $05
             0x2E, 0x06, // LD L, $06
-            
+
             // LD r1, r2
             0x7F,       // LD A, A
             0x78,       // LD A, B
@@ -82,7 +82,7 @@ class CPUTests : XCTestCase {
             0x7B,       // LD A, E
             0x7C,       // LD A, H
             0x7D,       // LD A, L
-            
+
             0x40,       // LD B, B
             0x41,       // LD B, C
             0x42,       // LD B, D
@@ -90,7 +90,7 @@ class CPUTests : XCTestCase {
             0x44,       // LD B, H
             0x45,       // LD B, L
             0x06, 0x01, // LD B, $01
-            
+
             0x48,       // LD C, B
             0x49,       // LD C, C
             0x4A,       // LD C, D
@@ -98,7 +98,7 @@ class CPUTests : XCTestCase {
             0x4C,       // LD C, H
             0x4D,       // LD C, L
             0x0E, 0x02, // LD C, $02
-            
+
             0x50,       // LD D, B
             0x51,       // LD D, C
             0x52,       // LD D, D
@@ -106,7 +106,7 @@ class CPUTests : XCTestCase {
             0x54,       // LD D, H
             0x55,       // LD D, L
             0x16, 0x03, // LD D, $03
-            
+
             0x58,       // LD E, B
             0x59,       // LD E, C
             0x5A,       // LD E, D
@@ -114,7 +114,7 @@ class CPUTests : XCTestCase {
             0x5C,       // LD E, H
             0x5D,       // LD E, L
             0x1E, 0x04, // LD E, $04
-            
+
             0x60,       // LD H, B
             0x61,       // LD H, C
             0x62,       // LD H, D
@@ -122,7 +122,7 @@ class CPUTests : XCTestCase {
             0x64,       // LD H, H
             0x65,       // LD H, L
             0x26, 0x05, // LD H, $05
-            
+
             0x68,       // LD L, B
             0x69,       // LD L, C
             0x6A,       // LD L, D
@@ -130,7 +130,7 @@ class CPUTests : XCTestCase {
             0x6C,       // LD L, H
             0x6D,       // LD L, L
             0x2E, 0x06, // LD L, $06
-            
+
             // LD r, (HL)
             0x26, 0xD0, // LD H, $D0
             0x2E, 0x00, // LD L, $00
@@ -143,7 +143,7 @@ class CPUTests : XCTestCase {
             0x26, 0xD0, // LD H, $D0
             0x6E,       // LD L, (HL)
             0x2E, 0x00, // LD L ,$00
-            
+
             // LD (HL), r
             0x06, 0x01, // LD B, $01
             0x0E, 0x02, // LD C, $02
@@ -161,7 +161,7 @@ class CPUTests : XCTestCase {
             0x7E,       // LD A, (HL)
             0x75,       // LD (HL), L
             0x7E,       // LD A, (HL)
-            
+
             // LD r, A
             0x7F,       // LD A, A
             0x47,       // LD B, A
@@ -170,7 +170,7 @@ class CPUTests : XCTestCase {
             0x5F,       // LD E, A
             0x67,       // LD H, A
             0x6F,       // LD L, A
-            
+
             0x26, 0xD0, // LD H, $D0
             0x2E, 0x01, // LD L, $01
             0x36, 0xF1, // LD (HL), $F1
@@ -182,9 +182,9 @@ class CPUTests : XCTestCase {
             0x1E, 0x02, // LD E, $02
             0x0A,       // LD A, (BC)
             0x1A,       // LD A, (DE)
-            
+
             0xFA, 0x01, 0xD0, // LD A, ($D001)
-            
+
             0x26, 0xDF, // LD H, $DF
             0x2E, 0xA0, // LD L, $A0
             0x36, 0xF0, // LD (HL), $F0
@@ -193,7 +193,7 @@ class CPUTests : XCTestCase {
             0xF0, 0xA0, // LD A, ($F0)
             0x0E, 0xA1, // LD C, $A1
             0xF2,       // LD A, (C)
-            
+
             0x3E, 0xAA, // LD A, $AA
             0xEA, 0xA0, 0xDF, // LD ($DFA0), A
             0x3E, 0xBB, // LD A, $BB
@@ -205,190 +205,190 @@ class CPUTests : XCTestCase {
             0xF0, 0xA1, // LD A, ($A1)
             0xF0, 0xA2, // LD A, ($A2)
         ]
-        
+
         // Load program into RAM
         for (offset, byte) in program.enumerated() {
             cpu.memory.write(0xC000 + Address(offset), byte)
         }
-        
+
         // Start program execution from RAM
         cpu.PC = 0xC000
-        
-        cpu.step()
-        XCTAssert(cpu.A == UInt8(0xA0))
-        cpu.step()
-        XCTAssert(cpu.B == UInt8(0x01))
-        cpu.step()
-        XCTAssert(cpu.C == UInt8(0x02))
-        cpu.step()
-        XCTAssert(cpu.D == UInt8(0x03))
-        cpu.step()
-        XCTAssert(cpu.E == UInt8(0x04))
-        cpu.step()
-        XCTAssert(cpu.H == UInt8(0x05))
-        cpu.step()
-        XCTAssert(cpu.L == UInt8(0x06))
-        
-        cpu.step()
-        XCTAssert(cpu.A == UInt8(0xA0))
-        cpu.step()
-        XCTAssert(cpu.A == UInt8(0x01))
-        cpu.step()
-        XCTAssert(cpu.A == UInt8(0x02))
-        cpu.step()
-        XCTAssert(cpu.A == UInt8(0x03))
-        cpu.step()
-        XCTAssert(cpu.A == UInt8(0x04))
-        cpu.step()
-        XCTAssert(cpu.A == UInt8(0x05))
-        cpu.step()
-        XCTAssert(cpu.A == UInt8(0x06))
-        
-        cpu.step()
-        XCTAssert(cpu.B == UInt8(0x01))
-        cpu.step()
-        XCTAssert(cpu.B == UInt8(0x02))
-        cpu.step()
-        XCTAssert(cpu.B == UInt8(0x03))
-        cpu.step()
-        XCTAssert(cpu.B == UInt8(0x04))
-        cpu.step()
-        XCTAssert(cpu.B == UInt8(0x05))
-        cpu.step()
-        XCTAssert(cpu.B == UInt8(0x06))
-        cpu.step()
-        
-        cpu.step()
-        XCTAssert(cpu.C == UInt8(0x01))
-        cpu.step()
-        XCTAssert(cpu.C == UInt8(0x01))
-        cpu.step()
-        XCTAssert(cpu.C == UInt8(0x03))
-        cpu.step()
-        XCTAssert(cpu.C == UInt8(0x04))
-        cpu.step()
-        XCTAssert(cpu.C == UInt8(0x05))
-        cpu.step()
-        XCTAssert(cpu.C == UInt8(0x06))
-        cpu.step()
-        
-        cpu.step()
-        XCTAssert(cpu.D == UInt8(0x01))
-        cpu.step()
-        XCTAssert(cpu.D == UInt8(0x02))
-        cpu.step()
-        XCTAssert(cpu.D == UInt8(0x02))
-        cpu.step()
-        XCTAssert(cpu.D == UInt8(0x04))
-        cpu.step()
-        XCTAssert(cpu.D == UInt8(0x05))
-        cpu.step()
-        XCTAssert(cpu.D == UInt8(0x06))
-        cpu.step()
-        
-        cpu.step()
-        XCTAssert(cpu.E == UInt8(0x01))
-        cpu.step()
-        XCTAssert(cpu.E == UInt8(0x02))
-        cpu.step()
-        XCTAssert(cpu.E == UInt8(0x03))
-        cpu.step()
-        XCTAssert(cpu.E == UInt8(0x03))
-        cpu.step()
-        XCTAssert(cpu.E == UInt8(0x05))
-        cpu.step()
-        XCTAssert(cpu.E == UInt8(0x06))
-        cpu.step()
-        
-        cpu.step()
-        XCTAssert(cpu.H == UInt8(0x01))
-        cpu.step()
-        XCTAssert(cpu.H == UInt8(0x02))
-        cpu.step()
-        XCTAssert(cpu.H == UInt8(0x03))
-        cpu.step()
-        XCTAssert(cpu.H == UInt8(0x04))
-        cpu.step()
-        XCTAssert(cpu.H == UInt8(0x04))
-        cpu.step()
-        XCTAssert(cpu.H == UInt8(0x06))
-        cpu.step()
-        
-        cpu.step()
-        XCTAssert(cpu.L == UInt8(0x01))
-        cpu.step()
-        XCTAssert(cpu.L == UInt8(0x02))
-        cpu.step()
-        XCTAssert(cpu.L == UInt8(0x03))
-        cpu.step()
-        XCTAssert(cpu.L == UInt8(0x04))
-        cpu.step()
-        XCTAssert(cpu.L == UInt8(0x05))
-        cpu.step()
-        XCTAssert(cpu.L == UInt8(0x05))
-        cpu.step()
-        
-        4.times { cpu.step() }
-        XCTAssert(cpu.B == UInt8(0xF0))
-        cpu.step()
-        XCTAssert(cpu.C == UInt8(0xF0))
-        cpu.step()
-        XCTAssert(cpu.D == UInt8(0xF0))
-        cpu.step()
-        XCTAssert(cpu.E == UInt8(0xF0))
-        cpu.step()
-        XCTAssert(cpu.H == UInt8(0xF0))
-        2.times { cpu.step() }
-        XCTAssert(cpu.L == UInt8(0xF0))
-        cpu.step()
-        
-        6.times { cpu.step() }
-        XCTAssert(cpu.A == cpu.B)
-        2.times{ cpu.step() }
-        XCTAssert(cpu.A == cpu.C)
-        2.times{ cpu.step() }
-        XCTAssert(cpu.A == cpu.D)
-        2.times{ cpu.step() }
-        XCTAssert(cpu.A == cpu.E)
-        2.times{ cpu.step() }
-        XCTAssert(cpu.A == cpu.H)
-        2.times{ cpu.step() }
-        XCTAssert(cpu.A == cpu.L)
 
         cpu.step()
-        XCTAssert(cpu.A == cpu.A)
+        XCTAssertEqual(cpu.A, UInt8(0xA0))
         cpu.step()
-        XCTAssert(cpu.B == cpu.A)
+        XCTAssertEqual(cpu.B, UInt8(0x01))
         cpu.step()
-        XCTAssert(cpu.C == cpu.A)
+        XCTAssertEqual(cpu.C, UInt8(0x02))
         cpu.step()
-        XCTAssert(cpu.D == cpu.A)
+        XCTAssertEqual(cpu.D, UInt8(0x03))
         cpu.step()
-        XCTAssert(cpu.E == cpu.A)
+        XCTAssertEqual(cpu.E, UInt8(0x04))
         cpu.step()
-        XCTAssert(cpu.H == cpu.A)
+        XCTAssertEqual(cpu.H, UInt8(0x05))
         cpu.step()
-        XCTAssert(cpu.L == cpu.A)
-        
-        10.times { cpu.step() }
-        XCTAssert(cpu.A == UInt8(0xF1))
+        XCTAssertEqual(cpu.L, UInt8(0x06))
+
         cpu.step()
-        XCTAssert(cpu.A == UInt8(0xF2))
+        XCTAssertEqual(cpu.A, UInt8(0xA0))
         cpu.step()
-        XCTAssert(cpu.A == UInt8(0xF1))
-        6.times { cpu.step() }
-        XCTAssert(cpu.A == UInt8(0xF0))
+        XCTAssertEqual(cpu.A, UInt8(0x01))
+        cpu.step()
+        XCTAssertEqual(cpu.A, UInt8(0x02))
+        cpu.step()
+        XCTAssertEqual(cpu.A, UInt8(0x03))
+        cpu.step()
+        XCTAssertEqual(cpu.A, UInt8(0x04))
+        cpu.step()
+        XCTAssertEqual(cpu.A, UInt8(0x05))
+        cpu.step()
+        XCTAssertEqual(cpu.A, UInt8(0x06))
+
+        cpu.step()
+        XCTAssertEqual(cpu.B, UInt8(0x01))
+        cpu.step()
+        XCTAssertEqual(cpu.B, UInt8(0x02))
+        cpu.step()
+        XCTAssertEqual(cpu.B, UInt8(0x03))
+        cpu.step()
+        XCTAssertEqual(cpu.B, UInt8(0x04))
+        cpu.step()
+        XCTAssertEqual(cpu.B, UInt8(0x05))
+        cpu.step()
+        XCTAssertEqual(cpu.B, UInt8(0x06))
+        cpu.step()
+
+        cpu.step()
+        XCTAssertEqual(cpu.C, UInt8(0x01))
+        cpu.step()
+        XCTAssertEqual(cpu.C, UInt8(0x01))
+        cpu.step()
+        XCTAssertEqual(cpu.C, UInt8(0x03))
+        cpu.step()
+        XCTAssertEqual(cpu.C, UInt8(0x04))
+        cpu.step()
+        XCTAssertEqual(cpu.C, UInt8(0x05))
+        cpu.step()
+        XCTAssertEqual(cpu.C, UInt8(0x06))
+        cpu.step()
+
+        cpu.step()
+        XCTAssertEqual(cpu.D, UInt8(0x01))
+        cpu.step()
+        XCTAssertEqual(cpu.D, UInt8(0x02))
+        cpu.step()
+        XCTAssertEqual(cpu.D, UInt8(0x02))
+        cpu.step()
+        XCTAssertEqual(cpu.D, UInt8(0x04))
+        cpu.step()
+        XCTAssertEqual(cpu.D, UInt8(0x05))
+        cpu.step()
+        XCTAssertEqual(cpu.D, UInt8(0x06))
+        cpu.step()
+
+        cpu.step()
+        XCTAssertEqual(cpu.E, UInt8(0x01))
+        cpu.step()
+        XCTAssertEqual(cpu.E, UInt8(0x02))
+        cpu.step()
+        XCTAssertEqual(cpu.E, UInt8(0x03))
+        cpu.step()
+        XCTAssertEqual(cpu.E, UInt8(0x03))
+        cpu.step()
+        XCTAssertEqual(cpu.E, UInt8(0x05))
+        cpu.step()
+        XCTAssertEqual(cpu.E, UInt8(0x06))
+        cpu.step()
+
+        cpu.step()
+        XCTAssertEqual(cpu.H, UInt8(0x01))
+        cpu.step()
+        XCTAssertEqual(cpu.H, UInt8(0x02))
+        cpu.step()
+        XCTAssertEqual(cpu.H, UInt8(0x03))
+        cpu.step()
+        XCTAssertEqual(cpu.H, UInt8(0x04))
+        cpu.step()
+        XCTAssertEqual(cpu.H, UInt8(0x04))
+        cpu.step()
+        XCTAssertEqual(cpu.H, UInt8(0x06))
+        cpu.step()
+
+        cpu.step()
+        XCTAssertEqual(cpu.L, UInt8(0x01))
+        cpu.step()
+        XCTAssertEqual(cpu.L, UInt8(0x02))
+        cpu.step()
+        XCTAssertEqual(cpu.L, UInt8(0x03))
+        cpu.step()
+        XCTAssertEqual(cpu.L, UInt8(0x04))
+        cpu.step()
+        XCTAssertEqual(cpu.L, UInt8(0x05))
+        cpu.step()
+        XCTAssertEqual(cpu.L, UInt8(0x05))
+        cpu.step()
+
+        4.times { cpu.step() }
+        XCTAssertEqual(cpu.B, UInt8(0xF0))
+        cpu.step()
+        XCTAssertEqual(cpu.C, UInt8(0xF0))
+        cpu.step()
+        XCTAssertEqual(cpu.D, UInt8(0xF0))
+        cpu.step()
+        XCTAssertEqual(cpu.E, UInt8(0xF0))
+        cpu.step()
+        XCTAssertEqual(cpu.H, UInt8(0xF0))
         2.times { cpu.step() }
-        XCTAssert(cpu.A == UInt8(0xF1))
-        
+        XCTAssertEqual(cpu.L, UInt8(0xF0))
+        cpu.step()
+
+        6.times { cpu.step() }
+        XCTAssertEqual(cpu.A, cpu.B)
+        2.times{ cpu.step() }
+        XCTAssertEqual(cpu.A, cpu.C)
+        2.times{ cpu.step() }
+        XCTAssertEqual(cpu.A, cpu.D)
+        2.times{ cpu.step() }
+        XCTAssertEqual(cpu.A, cpu.E)
+        2.times{ cpu.step() }
+        XCTAssertEqual(cpu.A, cpu.H)
+        2.times{ cpu.step() }
+        XCTAssertEqual(cpu.A, cpu.L)
+
+        cpu.step()
+        XCTAssertEqual(cpu.A, cpu.A)
+        cpu.step()
+        XCTAssertEqual(cpu.B, cpu.A)
+        cpu.step()
+        XCTAssertEqual(cpu.C, cpu.A)
+        cpu.step()
+        XCTAssertEqual(cpu.D, cpu.A)
+        cpu.step()
+        XCTAssertEqual(cpu.E, cpu.A)
+        cpu.step()
+        XCTAssertEqual(cpu.H, cpu.A)
+        cpu.step()
+        XCTAssertEqual(cpu.L, cpu.A)
+
+        10.times { cpu.step() }
+        XCTAssertEqual(cpu.A, UInt8(0xF1))
+        cpu.step()
+        XCTAssertEqual(cpu.A, UInt8(0xF2))
+        cpu.step()
+        XCTAssertEqual(cpu.A, UInt8(0xF1))
+        6.times { cpu.step() }
+        XCTAssertEqual(cpu.A, UInt8(0xF0))
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, UInt8(0xF1))
+
         8.times { cpu.step() }
-        XCTAssert(cpu.A == UInt8(0xAA))
+        XCTAssertEqual(cpu.A, UInt8(0xAA))
         cpu.step()
-        XCTAssert(cpu.A == UInt8(0xBB))
+        XCTAssertEqual(cpu.A, UInt8(0xBB))
         cpu.step()
-        XCTAssert(cpu.A == UInt8(0xCC))
+        XCTAssertEqual(cpu.A, UInt8(0xCC))
     }
-    
+
     func test16BitLoads() {
         var cpu = CPU(memory: Memory())
         let program: [UInt8] = [
@@ -397,13 +397,13 @@ class CPUTests : XCTestCase {
             0x11, 0x67, 0x45, // LD DE, $4567
             0x21, 0xAB, 0x89, // LD HL, $89AB
             0x31, 0xEF, 0xCD, // LD SP, $CDEF
-            
+
             0x21, 0xEF, 0xFF, // LD HL, $FFEF
             0xF9,             // LD SP, HL
-            
+
             0xF8, 0xF0,       // LD HL, SP+$F0 (-16)
             0xF8, 0x10,       // LD HL, SP+$F0 (+16)
-            
+
             0x21, 0xAB, 0x89, // LD HL, $89AB
             0xF5,             // PUSH AF
             0xC5,             // PUSH BC
@@ -415,69 +415,69 @@ class CPUTests : XCTestCase {
             0xC1,             // POP BC
             0xD1,             // POP DE
             0xE1,             // POP HL
-            
+
             0x08, 0x00, 0xD0, // LD ($D000), SP
             0x21, 0x00, 0xD0, // LD HL, $D000
             0x2A,             // LD A, (HL+)
             0x2A,             // LD A, (HL+)
         ]
-        
-        
+
+
         // Load program into RAM
         for (offset, byte) in program.enumerated() {
             cpu.memory.write(0xC000 + Address(offset), byte)
         }
-        
+
         // Start program execution from RAM
         cpu.PC = 0xC000
-        
+
         cpu.step()
-        XCTAssert(cpu.BC == 0x0123)
-        XCTAssert(cpu.B == 0x01)
-        XCTAssert(cpu.C == 0x23)
-        
+        XCTAssertEqual(cpu.BC, 0x0123)
+        XCTAssertEqual(cpu.B, 0x01)
+        XCTAssertEqual(cpu.C, 0x23)
+
         cpu.step()
-        XCTAssert(cpu.DE == 0x4567)
-        XCTAssert(cpu.D == 0x45)
-        XCTAssert(cpu.E == 0x67)
-        
+        XCTAssertEqual(cpu.DE, 0x4567)
+        XCTAssertEqual(cpu.D, 0x45)
+        XCTAssertEqual(cpu.E, 0x67)
+
         cpu.step()
-        XCTAssert(cpu.HL == 0x89AB)
-        XCTAssert(cpu.H == 0x89)
-        XCTAssert(cpu.L == 0xAB)
-        
+        XCTAssertEqual(cpu.HL, 0x89AB)
+        XCTAssertEqual(cpu.H, 0x89)
+        XCTAssertEqual(cpu.L, 0xAB)
+
         cpu.step()
-        XCTAssert(cpu.SP == 0xCDEF)
-        
+        XCTAssertEqual(cpu.SP, 0xCDEF)
+
         2.times { cpu.step() }
-        XCTAssert(cpu.SP == 0xFFEF)
-        
+        XCTAssertEqual(cpu.SP, 0xFFEF)
+
         cpu.step()
-        XCTAssert(cpu.HL == 0xFFDF)
-        XCTAssert(cpu.CFlag == true)
-        XCTAssert(cpu.HFlag == true)
+        XCTAssertEqual(cpu.HL, 0xFFDF)
+        XCTAssertEqual(cpu.CFlag, true)
+        XCTAssertEqual(cpu.HFlag, true)
         cpu.step()
-        XCTAssert(cpu.HL == 0xFFFF)
-        XCTAssert(cpu.CFlag == false)
-        XCTAssert(cpu.HFlag == true)
-        
+        XCTAssertEqual(cpu.HL, 0xFFFF)
+        XCTAssertEqual(cpu.CFlag, false)
+        XCTAssertEqual(cpu.HFlag, true)
+
         11.times { cpu.step() }
-        XCTAssert(cpu.AF == 0xCDEF)
-        XCTAssert(cpu.BC == 0x89AB)
-        XCTAssert(cpu.DE == 0x4567)
-        XCTAssert(cpu.HL == 0x0123)
-        
+        XCTAssertEqual(cpu.AF, 0xCDEF)
+        XCTAssertEqual(cpu.BC, 0x89AB)
+        XCTAssertEqual(cpu.DE, 0x4567)
+        XCTAssertEqual(cpu.HL, 0x0123)
+
         3.times { cpu.step() }
-        XCTAssert(cpu.A == cpu.SP.offset)
+        XCTAssertEqual(cpu.A, cpu.SP.offset)
         cpu.step()
-        XCTAssert(cpu.A == cpu.SP.page)
+        XCTAssertEqual(cpu.A, cpu.SP.page)
     }
-    
+
     func testADD() {
         var cpu = CPU(memory: Memory())
         let program: [UInt8] = [
             0x31, 0xFF, 0xFF, // LD SP, $FFFF
-            
+
             0x3E, 0x10, // LD A $10
             0x06, 0x01, // LD B $01
             0x0E, 0x02, // LD C $02
@@ -485,7 +485,7 @@ class CPUTests : XCTestCase {
             0x1E, 0x04, // LD E $04
             0x26, 0x05, // LD H $05
             0x2E, 0x06, // LD L $06
-            
+
             0x87,       // ADD A, A
             0x80,       // ADD A, B
             0x81,       // ADD A, C
@@ -493,11 +493,11 @@ class CPUTests : XCTestCase {
             0x83,       // ADD A, E
             0x84,       // ADD A, H
             0x85,       // ADD A, L
-            
+
             0x3E, 0x0F, // LD A, $0F
             0xC6, 0x01, // ADD A, $01  (half carry)
             0xC6, 0xF0, // ADD A, $F0  (full carry)
-            
+
             // Push 0xFFF0 onto the stack, then add the lower nibble (0xF0) to A
             0x21, 0xF0, 0xFF, // LD HL $FFF0
             0xE5,             // PUSH HL
@@ -505,42 +505,97 @@ class CPUTests : XCTestCase {
             0x3E, 0x00,       // LD A, $00
             0x86,             // ADD A, (HL)
         ]
-        
-        
+
+
         // Load program into RAM
         for (offset, byte) in program.enumerated() {
             cpu.memory.write(0xC000 + Address(offset), byte)
         }
-        
+
         // Start program execution from RAM
         cpu.PC = 0xC000
-        
+
         8.times { cpu.step() }
-        XCTAssert(cpu.A == 0x10)
+        XCTAssertEqual(cpu.A, 0x10)
         cpu.step()
-        XCTAssert(cpu.A == 0x20)
+        XCTAssertEqual(cpu.A, 0x20)
         cpu.step()
-        XCTAssert(cpu.A == 0x21)
+        XCTAssertEqual(cpu.A, 0x21)
         cpu.step()
-        XCTAssert(cpu.A == 0x23)
+        XCTAssertEqual(cpu.A, 0x23)
         cpu.step()
-        XCTAssert(cpu.A == 0x26)
+        XCTAssertEqual(cpu.A, 0x26)
         cpu.step()
-        XCTAssert(cpu.A == 0x2A)
+        XCTAssertEqual(cpu.A, 0x2A)
         cpu.step()
-        XCTAssert(cpu.A == 0x2F)
+        XCTAssertEqual(cpu.A, 0x2F)
         cpu.step()
-        XCTAssert(cpu.A == 0x35)
-        
+        XCTAssertEqual(cpu.A, 0x35)
+
         2.times { cpu.step() }
-        XCTAssert(cpu.HFlag == true)
-        XCTAssert(cpu.CFlag == false)
+        XCTAssertEqual(cpu.HFlag, true)
+        XCTAssertEqual(cpu.CFlag, false)
         cpu.step()
-        XCTAssert(cpu.HFlag == false)
-        XCTAssert(cpu.CFlag == true)
-        
+        XCTAssertEqual(cpu.HFlag, false)
+        XCTAssertEqual(cpu.CFlag, true)
+
         5.times { cpu.step() }
-        XCTAssert(cpu.A == 0xF0)
+        XCTAssertEqual(cpu.A, 0xF0)
+    }
+
+    func testSUB() {
+        var cpu = CPU(memory: Memory())
+        let program: [UInt8] = [
+            0x31, 0xFF, 0xFF, // LD SP, $FFFF
+
+            0x3E, 0x10, // LD A $10
+            0x06, 0x01, // LD B $01
+            0x0E, 0x02, // LD C $02
+            0x16, 0x03, // LD D $03
+            0x1E, 0x04, // LD E $04
+            0x26, 0x05, // LD H $05
+            0x2E, 0x06, // LD L $06
+
+            0x97,       // SUB A, A
+            0x3E, 0x10, // LD A $10
+            0x90,       // SUB A, B
+            0x3E, 0x10, // LD A $10
+            0x91,       // SUB A, C
+            0x3E, 0x10, // LD A $10
+            0x92,       // SUB A, D
+            0x3E, 0x10, // LD A $10
+            0x93,       // SUB A, E
+            0x3E, 0x10, // LD A $10
+            0x94,       // SUB A, H
+            0x3E, 0x10, // LD A $10
+            0x95,       // SUB A, L
+        ]
+
+
+        // Load program into RAM
+        for (offset, byte) in program.enumerated() {
+            cpu.memory.write(0xC000 + Address(offset), byte)
+        }
+
+        // Start program execution from RAM
+        cpu.PC = 0xC000
+
+        8.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0x10)
+        cpu.step()
+        XCTAssertEqual(cpu.A, 0x00)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0x0F)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0x0E)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0x0D)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0x0C)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0x0B)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0x0A)
     }
     
 }
