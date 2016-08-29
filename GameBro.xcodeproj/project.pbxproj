@@ -91,7 +91,8 @@
 				5720421F1C97B67900AB9BE9 /* Step.swift */,
 				572042211C97BA1E00AB9BE9 /* AddressingModes.swift */,
 			);
-			path = GameBro;
+			name = GameBro;
+			path = Sources/GameBro;
 			sourceTree = "<group>";
 		};
 		57E7E2051C96AC3700957AA8 /* GameBroTests */ = {
@@ -101,7 +102,8 @@
 				5720421B1C97A41A00AB9BE9 /* CPUTests.swift */,
 				57E7E2081C96AC3700957AA8 /* Info.plist */,
 			);
-			path = GameBroTests;
+			name = GameBroTests;
+			path = Tests/GameBroTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -338,7 +340,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = GameBro/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/GameBro/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rpowell.GameBro;
@@ -359,7 +361,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = GameBro/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/GameBro/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rpowell.GameBro;
@@ -374,7 +376,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = GameBroTests/Info.plist;
+				INFOPLIST_FILE = Tests/GameBroTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rpowell.GameBroTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -386,7 +388,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = GameBroTests/Info.plist;
+				INFOPLIST_FILE = Tests/GameBroTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rpowell.GameBroTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
