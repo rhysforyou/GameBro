@@ -1,5 +1,3 @@
-import Foundation
-
 /// An implementation of the Sharp LR35902 processor used by the Game Boy
 ///
 /// ## Register Layout

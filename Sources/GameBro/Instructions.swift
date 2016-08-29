@@ -1,13 +1,3 @@
-//
-//  Instructions.swift
-//  GameBro
-//
-//  Created by Rhys Powell on 15/03/2016.
-//  Copyright © 2016 Rhys Powell. All rights reserved.
-//
-
-import Foundation
-
 public extension CPU {
     
     /// `ADC r, d8`

@@ -1,13 +1,3 @@
-//
-//  Step.swift
-//  GameBro
-//
-//  Created by Rhys Powell on 15/03/2016.
-//  Copyright © 2016 Rhys Powell. All rights reserved.
-//
-
-import Foundation
-
 extension CPU {
     mutating func step() {
         let opcode: UInt8 = memory.read(PC)

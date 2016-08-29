@@ -1,11 +1,3 @@
-//
-//  GameBroTests.swift
-//  GameBroTests
-//
-//  Created by Rhys Powell on 14/03/2016.
-//  Copyright © 2016 Rhys Powell. All rights reserved.
-//
-
 import XCTest
 @testable import GameBro
 

@@ -1,5 +1,3 @@
-import Foundation
-
 public typealias Address = UInt16
 
 extension Address {
