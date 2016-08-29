@@ -18,9 +18,9 @@ extension Address {
 
 public struct Memory {
     // 8kb of main RAM
-    private var RAM = Array<UInt8>(count: 0x2000, repeatedValue: 0x00)
+    private var RAM = Array<UInt8>(repeating: 0x00, count: 0x2000)
     
-    public func read(address: Address) -> UInt8 {
+    public func read(_ address: Address) -> UInt8 {
         switch address {
         case 0x0000..<0x4000: // 16k cart ROM bank #0
             break
@@ -49,14 +49,14 @@ public struct Memory {
         return 0x00
     }
     
-    public func read16(address: Address) -> UInt16 {
+    public func read16(_ address: Address) -> UInt16 {
         let low  = read(address)
         let high = read(address + 1)
         
         return UInt16(high) << 8 | UInt16(low)
     }
     
-    public mutating func write(address: Address, _ value: UInt8) {
+    public mutating func write(_ address: Address, _ value: UInt8) {
         switch address {
         case 0x0000..<0x4000: // 16k cart ROM bank #0
             break
@@ -83,7 +83,7 @@ public struct Memory {
         }
     }
     
-    public mutating func write16(address: Address, _ value: UInt16) {
+    public mutating func write16(_ address: Address, _ value: UInt16) {
         let low  = UInt8(value & 0x00FF)
         let high = UInt8(value >> 8)
         

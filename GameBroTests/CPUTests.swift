@@ -2,7 +2,7 @@ import XCTest
 @testable import GameBro
 
 extension Int {
-    func times(closure: () -> ()) {
+    func times(_ closure: () -> ()) {
         for _ in 0..<self {
             closure()
         }
@@ -45,7 +45,7 @@ class CPUTests : XCTestCase {
         ]
         
         // Load program into RAM
-        for (offset, byte) in program.enumerate() {
+        for (offset, byte) in program.enumerated() {
             cpu.memory.write(0xC000 + Address(offset), byte)
         }
         
@@ -207,7 +207,7 @@ class CPUTests : XCTestCase {
         ]
         
         // Load program into RAM
-        for (offset, byte) in program.enumerate() {
+        for (offset, byte) in program.enumerated() {
             cpu.memory.write(0xC000 + Address(offset), byte)
         }
         
@@ -424,7 +424,7 @@ class CPUTests : XCTestCase {
         
         
         // Load program into RAM
-        for (offset, byte) in program.enumerate() {
+        for (offset, byte) in program.enumerated() {
             cpu.memory.write(0xC000 + Address(offset), byte)
         }
         
@@ -508,7 +508,7 @@ class CPUTests : XCTestCase {
         
         
         // Load program into RAM
-        for (offset, byte) in program.enumerate() {
+        for (offset, byte) in program.enumerated() {
             cpu.memory.write(0xC000 + Address(offset), byte)
         }
         

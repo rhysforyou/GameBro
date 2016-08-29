@@ -115,11 +115,11 @@ public extension CPU {
 // Flags
 public extension CPU {
     
-    internal func getFlag(flag: UInt8) -> Bool {
+    internal func getFlag(_ flag: UInt8) -> Bool {
         return (flag & F) != 0
     }
     
-    internal mutating func setFlag(flag: UInt8, _ value: Bool) {
+    internal mutating func setFlag(_ flag: UInt8, _ value: Bool) {
         if value {
             F |= flag
         } else {

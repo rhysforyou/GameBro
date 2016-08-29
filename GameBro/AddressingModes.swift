@@ -90,14 +90,14 @@ public extension CPU {
         PC += 1
     }
     
-    public mutating func register(register: UInt8, cycles cyclesSpent: UInt64) -> UInt8 {
+    public mutating func register(_ register: UInt8, cycles cyclesSpent: UInt64) -> UInt8 {
         cycle += cyclesSpent
         PC += 1
         
         return register
     }
     
-    public mutating func register16(register: UInt16, cycles cyclesSpent: UInt64) -> UInt16 {
+    public mutating func register16(_ register: UInt16, cycles cyclesSpent: UInt64) -> UInt16 {
         cycle += cyclesSpent
         PC += 1
         
