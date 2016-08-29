@@ -14,7 +14,6 @@
 		5721F4661C96BEDC000ACDEE /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721F4651C96BEDC000ACDEE /* Memory.swift */; };
 		57E7E1FB1C96AC3700957AA8 /* GameBro.h in Headers */ = {isa = PBXBuildFile; fileRef = 57E7E1FA1C96AC3700957AA8 /* GameBro.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		57E7E2021C96AC3700957AA8 /* GameBro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57E7E1F71C96AC3700957AA8 /* GameBro.framework */; };
-		57E7E2071C96AC3700957AA8 /* GameBroTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E7E2061C96AC3700957AA8 /* GameBroTests.swift */; };
 		57E7E2121C96AF5000957AA8 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E7E2111C96AF5000957AA8 /* CPU.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,7 +37,6 @@
 		57E7E1FA1C96AC3700957AA8 /* GameBro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameBro.h; sourceTree = "<group>"; };
 		57E7E1FC1C96AC3700957AA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		57E7E2011C96AC3700957AA8 /* GameBroTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameBroTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		57E7E2061C96AC3700957AA8 /* GameBroTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBroTests.swift; sourceTree = "<group>"; };
 		57E7E2081C96AC3700957AA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		57E7E2111C96AF5000957AA8 /* CPU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CPU.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -98,7 +96,6 @@
 		57E7E2051C96AC3700957AA8 /* GameBroTests */ = {
 			isa = PBXGroup;
 			children = (
-				57E7E2061C96AC3700957AA8 /* GameBroTests.swift */,
 				5720421B1C97A41A00AB9BE9 /* CPUTests.swift */,
 				57E7E2081C96AC3700957AA8 /* Info.plist */,
 			);
@@ -229,7 +226,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5720421C1C97A41A00AB9BE9 /* CPUTests.swift in Sources */,
-				57E7E2071C96AC3700957AA8 /* GameBroTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
