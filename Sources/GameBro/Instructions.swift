@@ -36,7 +36,25 @@ public extension CPU {
     public mutating func ADD(_ register: inout UInt8, address: Address) {
         ADD(&register, memory.read(address))
     }
-    
+
+    public mutating func AND(_ register: inout UInt8, _ value: UInt8) {
+        register = register & value
+
+        ZFlag = register == 0
+        NFlag = false
+        HFlag = true
+        CFlag = false
+    }
+
+    public mutating func AND(_ register: inout UInt8, address: Address) {
+        register = register & memory.read(address)
+
+        ZFlag = register == 0
+        NFlag = false
+        HFlag = true
+        CFlag = false
+    }
+
     /// `LD nn, n` - 8-bit load into register
     public mutating func LD(_ register: inout UInt8, _ value: UInt8) {
         register = value
@@ -93,6 +111,24 @@ public extension CPU {
     }
     
     public func NOP() {}
+
+    public mutating func OR(_ register: inout UInt8, _ value: UInt8) {
+        register = register | value
+
+        ZFlag = register == 0
+        NFlag = false
+        HFlag = false
+        CFlag = false
+    }
+
+    public mutating func OR(_ register: inout UInt8, address: Address) {
+        register = register | memory.read(address)
+
+        ZFlag = register == 0
+        NFlag = false
+        HFlag = false
+        CFlag = false
+    }
     
     public mutating func PUSH(_ value: UInt16) {
         SP -= 2
@@ -141,6 +177,24 @@ public extension CPU {
     /// `ADD r, (a16)`
     public mutating func SUB(_ register: inout UInt8, address: Address) {
         ADD(&register, memory.read(address))
+    }
+
+    public mutating func XOR(_ register: inout UInt8, _ value: UInt8) {
+        register = register ^ value
+
+        ZFlag = register == 0
+        NFlag = false
+        HFlag = false
+        CFlag = false
+    }
+
+    public mutating func XOR(_ register: inout UInt8, address: Address) {
+        register = register ^ memory.read(address)
+
+        ZFlag = register == 0
+        NFlag = false
+        HFlag = false
+        CFlag = false
     }
     
 }

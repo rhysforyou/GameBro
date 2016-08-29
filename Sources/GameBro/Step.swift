@@ -163,30 +163,30 @@ extension CPU {
         case 0x9D: SBC(&A, register(L, cycles: 4)) // SBC A, L
         case 0x9E: SBC(&A, address: register16(HL, cycles: 8))  // SBC A, (HL)
         case 0x9F: SBC(&A, register(A, cycles: 4)) // SBC A, A
-        case 0xA0: break
-        case 0xA1: break
-        case 0xA2: break
-        case 0xA3: break
-        case 0xA4: break
-        case 0xA5: break
-        case 0xA6: break
-        case 0xA7: break
-        case 0xA8: break
-        case 0xA9: break
-        case 0xAA: break
-        case 0xAB: break
-        case 0xAC: break
-        case 0xAD: break
-        case 0xAE: break
-        case 0xAF: break
-        case 0xB0: break
-        case 0xB1: break
-        case 0xB2: break
-        case 0xB3: break
-        case 0xB4: break
-        case 0xB5: break
-        case 0xB6: break
-        case 0xB7: break
+        case 0xA0: AND(&A, register(B, cycles: 4)) // AND A, B
+        case 0xA1: AND(&A, register(C, cycles: 4)) // AND A, C
+        case 0xA2: AND(&A, register(D, cycles: 4)) // AND A, D
+        case 0xA3: AND(&A, register(E, cycles: 4)) // AND A, E
+        case 0xA4: AND(&A, register(H, cycles: 4)) // AND A, H
+        case 0xA5: AND(&A, register(L, cycles: 4)) // AND A, L
+        case 0xA6: AND(&A, address: register16(HL, cycles: 8)) // AND A, (HL)
+        case 0xA7: AND(&A, register(A, cycles: 4)) // AND A, A
+        case 0xA8: XOR(&A, register(B, cycles: 4)) // XOR A, B
+        case 0xA9: XOR(&A, register(C, cycles: 4)) // XOR A, C
+        case 0xAA: XOR(&A, register(D, cycles: 4)) // XOR A, D
+        case 0xAB: XOR(&A, register(E, cycles: 4)) // XOR A, E
+        case 0xAC: XOR(&A, register(H, cycles: 4)) // XOR A, H
+        case 0xAD: XOR(&A, register(L, cycles: 4)) // XOR A, L
+        case 0xAE: XOR(&A, address: register16(HL, cycles: 8)) // XOR A, (HL)
+        case 0xAF: XOR(&A, register(A, cycles: 4)) // XOR A, A
+        case 0xB0: OR(&A, register(B, cycles: 4)) // OR A, B
+        case 0xB1: OR(&A, register(C, cycles: 4)) // OR A, C
+        case 0xB2: OR(&A, register(D, cycles: 4)) // OR A, D
+        case 0xB3: OR(&A, register(E, cycles: 4)) // OR A, E
+        case 0xB4: OR(&A, register(H, cycles: 4)) // OR A, H
+        case 0xB5: OR(&A, register(L, cycles: 4)) // OR A, L
+        case 0xB6: OR(&A, address: register16(HL, cycles: 8)) // OR A, (HL)
+        case 0xB7: OR(&A, register(A, cycles: 4)) // OR A, A
         case 0xB8: break
         case 0xB9: break
         case 0xBA: break
@@ -228,19 +228,19 @@ extension CPU {
         case 0xE1: POP(&HL); implied(cycles: 12) // POP HL
         case 0xE2: LDH(offset: C, register(A, cycles: 8)) // LD ($FF00+C), A
         case 0xE5: PUSH(register16(HL, cycles: 16)) // PUSH HL
-        case 0xE6: break
+        case 0xE6: AND(&A, immediate(cycles: 8)) // AND A, d8
         case 0xE7: break
         case 0xE8: break
         case 0xE9: break
         case 0xEA: LD(address: immediate16(cycles: 16), A) // LD (a16), A
-        case 0xEE: break
+        case 0xEE: XOR(&A, immediate(cycles: 8)) // XOR A, d8
         case 0xEF: break
         case 0xF0: LDH(&A, offset: immediate(cycles: 12)) // LD A, ($FF00+a8)
         case 0xF1: POP(&AF); implied(cycles: 12) // POP AF
         case 0xF2: LDH(&A, offset: register(C, cycles: 8)) // LD A, ($FF00+C)
         case 0xF3: break
         case 0xF5: PUSH(register16(AF, cycles: 16)) // PUSH AF
-        case 0xF6: break
+        case 0xF6: OR(&A, immediate(cycles: 8)) // OR A, d8
         case 0xF7: break
         case 0xF8: LDHL(offset: immediateSigned(cycles: 12)) // LD HL, SP+d8
         case 0xF9: LD(&SP, register16(HL, cycles: 8)) // LD SP, HL
