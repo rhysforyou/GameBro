@@ -597,5 +597,15 @@ class CPUTests : XCTestCase {
         2.times { cpu.step() }
         XCTAssertEqual(cpu.A, 0x0A)
     }
-    
+
+    static var allTests = [
+        ("testLD", testLD),
+        ("testEcho", testEcho),
+        ("testStep", testStep),
+        ("test8BitLoads", test8BitLoads),
+        ("test16BitLoads", test16BitLoads),
+        ("testADD", testADD),
+        ("testSUB", testSUB)
+    ]
+
 }
