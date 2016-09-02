@@ -65,7 +65,6 @@ public struct CPU {
     /// Create a new CPU with the provided memory
     ///
     /// - parameter memory: the memory this CPU will use
-    ///
     /// - returns: a CPU with the provided memory
     public init(memory: Memory) {
         self.memory = memory

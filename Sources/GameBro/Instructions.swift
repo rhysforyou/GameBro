@@ -23,7 +23,7 @@ public extension CPU {
     public mutating func ADC(_ register: inout UInt8, address: Address) {
         ADC(&register, memory.read(address))
     }
-    
+
     /// `ADD r, d8` - Add value to register
     ///
     /// - parameter register: the register to add to
@@ -39,7 +39,7 @@ public extension CPU {
 
         register = register &+ value
     }
-    
+
     /// `ADD r, (a16)` - Add value at address to register
     ///
     /// - parameter register: the register to add to
@@ -143,7 +143,7 @@ public extension CPU {
         let absoluteOffset: Address = Address(abs(offset))
         let address: Address
 
-        if (offset >= 0) {
+        if offset >= 0 {
             address = SP &+ absoluteOffset
             CFlag = (SP & 0x00FF) + absoluteOffset > 0xFF
             HFlag = (SP & 0x000F) + absoluteOffset > 0xF

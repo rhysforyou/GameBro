@@ -344,15 +344,15 @@ class CPUTests : XCTestCase {
 
         6.times { cpu.step() }
         XCTAssertEqual(cpu.A, cpu.B)
-        2.times{ cpu.step() }
+        2.times { cpu.step() }
         XCTAssertEqual(cpu.A, cpu.C)
-        2.times{ cpu.step() }
+        2.times { cpu.step() }
         XCTAssertEqual(cpu.A, cpu.D)
-        2.times{ cpu.step() }
+        2.times { cpu.step() }
         XCTAssertEqual(cpu.A, cpu.E)
-        2.times{ cpu.step() }
+        2.times { cpu.step() }
         XCTAssertEqual(cpu.A, cpu.H)
-        2.times{ cpu.step() }
+        2.times { cpu.step() }
         XCTAssertEqual(cpu.A, cpu.L)
 
         cpu.step()
