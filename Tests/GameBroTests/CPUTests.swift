@@ -571,7 +571,6 @@ class CPUTests : XCTestCase {
             0x95,       // SUB A, L
         ]
 
-
         // Load program into RAM
         for (offset, byte) in program.enumerated() {
             cpu.memory.write(0xC000 + Address(offset), byte)
@@ -598,6 +597,166 @@ class CPUTests : XCTestCase {
         XCTAssertEqual(cpu.A, 0x0A)
     }
 
+    func testAND() {
+        var cpu = CPU(memory: Memory())
+        let program: [UInt8] = [
+            0x31, 0xFF, 0xFF, // LD SP, $FFFF
+
+            0x3E, 0b1010, // LD A, 1010
+            0x06, 0b1100, // LD B, 1100
+            0x0E, 0b1100, // LD C, 1100
+            0x16, 0b1100, // LD D, 1100
+            0x1E, 0b1100, // LD E, 1100
+            0x26, 0b1100, // LD H, 1100
+            0x2E, 0b1100, // LD L, 1100
+
+            0x3E, 0b1010, // LD A, 1010
+            0xA7,         // AND A, A
+            0x3E, 0b1010, // LD A, 1010
+            0xA0,         // AND A, B
+            0x3E, 0b1010, // LD A, 1010
+            0xA1,         // AND A, C
+            0x3E, 0b1010, // LD A, 1010
+            0xA2,         // AND A, D
+            0x3E, 0b1010, // LD A, 1010
+            0xA3,         // AND A, E
+            0x3E, 0b1010, // LD A, 1010
+            0xA4,         // AND A, H
+            0x3E, 0b1010, // LD A, 1010
+            0xA5,         // AND A, L
+        ]
+
+        // Load program into RAM
+        for (offset, byte) in program.enumerated() {
+            cpu.memory.write(0xC000 + Address(offset), byte)
+        }
+
+        // Start program execution from RAM
+        cpu.PC = 0xC000
+
+        10.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b1010)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b1000)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b1000)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b1000)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b1000)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b1000)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b1000)
+    }
+
+    func testOR() {
+        var cpu = CPU(memory: Memory())
+        let program: [UInt8] = [
+            0x31, 0xFF, 0xFF, // LD SP, $FFFF
+
+            0x3E, 0b1010, // LD A, 1010
+            0x06, 0b1100, // LD B, 1100
+            0x0E, 0b1100, // LD C, 1100
+            0x16, 0b1100, // LD D, 1100
+            0x1E, 0b1100, // LD E, 1100
+            0x26, 0b1100, // LD H, 1100
+            0x2E, 0b1100, // LD L, 1100
+
+            0x3E, 0b1010, // LD A, 1010
+            0xB7,         // OR A, A
+            0x3E, 0b1010, // LD A, 1010
+            0xB0,         // OR A, B
+            0x3E, 0b1010, // LD A, 1010
+            0xB1,         // OR A, C
+            0x3E, 0b1010, // LD A, 1010
+            0xB2,         // OR A, D
+            0x3E, 0b1010, // LD A, 1010
+            0xB3,         // OR A, E
+            0x3E, 0b1010, // LD A, 1010
+            0xB4,         // OR A, H
+            0x3E, 0b1010, // LD A, 1010
+            0xB5,         // OR A, L
+        ]
+
+        // Load program into RAM
+        for (offset, byte) in program.enumerated() {
+            cpu.memory.write(0xC000 + Address(offset), byte)
+        }
+
+        // Start program execution from RAM
+        cpu.PC = 0xC000
+
+        10.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b1010)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b1110)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b1110)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b1110)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b1110)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b1110)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b1110)
+    }
+
+    func testXOR() {
+
+        var cpu = CPU(memory: Memory())
+        let program: [UInt8] = [
+            0x31, 0xFF, 0xFF, // LD SP, $FFFF
+
+            0x3E, 0b1010, // LD A, 1010
+            0x06, 0b1100, // LD B, 1100
+            0x0E, 0b1100, // LD C, 1100
+            0x16, 0b1100, // LD D, 1100
+            0x1E, 0b1100, // LD E, 1100
+            0x26, 0b1100, // LD H, 1100
+            0x2E, 0b1100, // LD L, 1100
+
+            0x3E, 0b1010, // LD A, 1010
+            0xAF,         // XOR A, A
+            0x3E, 0b1010, // LD A, 1010
+            0xA8,         // XOR A, B
+            0x3E, 0b1010, // LD A, 1010
+            0xA9,         // XOR A, C
+            0x3E, 0b1010, // LD A, 1010
+            0xAA,         // XOR A, D
+            0x3E, 0b1010, // LD A, 1010
+            0xAB,         // XOR A, E
+            0x3E, 0b1010, // LD A, 1010
+            0xAC,         // XOR A, H
+            0x3E, 0b1010, // LD A, 1010
+            0xAD,         // XOR A, L
+        ]
+
+        // Load program into RAM
+        for (offset, byte) in program.enumerated() {
+            cpu.memory.write(0xC000 + Address(offset), byte)
+        }
+
+        // Start program execution from RAM
+        cpu.PC = 0xC000
+
+        10.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b0000)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b0110)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b0110)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b0110)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b0110)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b0110)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.A, 0b0110)
+    }
+
     static var allTests = [
         ("testLD", testLD),
         ("testEcho", testEcho),
@@ -605,7 +764,10 @@ class CPUTests : XCTestCase {
         ("test8BitLoads", test8BitLoads),
         ("test16BitLoads", test16BitLoads),
         ("testADD", testADD),
-        ("testSUB", testSUB)
+        ("testSUB", testSUB),
+        ("testAND", testAND),
+        ("testOR", testOR),
+        ("testXOR", testXOR),
     ]
 
 }
