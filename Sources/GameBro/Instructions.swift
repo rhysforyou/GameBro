@@ -1,37 +1,37 @@
 public extension CPU {
-    
+
     /// `ADC r, d8`
     public mutating func ADC(_ register: inout UInt8, _ value: UInt8) {
         let carry: UInt8 = CFlag ? 1 : 0
         let high = UInt16(register) &+ UInt16(value) &+ UInt16(carry)
         let low  = (register & 0x0F) &+ (value & 0x0F) &+ carry
-        
+
         ZFlag = high == 0
         NFlag = false
         HFlag = low > 0x0F
         CFlag = high > 0xFF
-        
+
         register = register &+ value &+ carry
     }
-    
+
     /// `ADC r, (a16)`
     public mutating func ADC(_ register: inout UInt8, address: Address) {
         ADC(&register, memory.read(address))
     }
-    
+
     /// `ADD r, d8`
     public mutating func ADD(_ register: inout UInt8, _ value: UInt8) {
         let high = UInt16(register) &+ UInt16(value)
         let low  = (register & 0x0F) &+ (value & 0x0F)
-        
+
         ZFlag = high == 0
         NFlag = false
         HFlag = low > 0x0F
         CFlag = high > 0xFF
-        
+
         register = register &+ value
     }
-    
+
     /// `ADD r, (a16)`
     public mutating func ADD(_ register: inout UInt8, address: Address) {
         ADD(&register, memory.read(address))
@@ -56,22 +56,22 @@ public extension CPU {
     public mutating func LD(_ register: inout UInt8, _ value: UInt8) {
         register = value
     }
-    
+
     // `LD n, nn` - 16-bit load into register
     public mutating func LD(_ register: inout UInt16, _ value: UInt16) {
         register = value
     }
-    
+
     /// `LD (C), A` - Write register to memory
     public mutating func LD(address: Address, _ value: UInt8) {
         memory.write(address, value)
     }
-    
+
     /// `LD (C), A` - Write register to memory
     public mutating func LD(address: Address, _ value: UInt16) {
         memory.write16(address, value)
     }
-    
+
     /// `LD A, (C)` - Read memory to register
     public mutating func LD(_ register: inout UInt8, address: Address) {
         register = memory.read(address)
@@ -93,10 +93,10 @@ public extension CPU {
     public mutating func LDHL(offset: Int8) {
         ZFlag = false
         NFlag = false
-        
+
         let absoluteOffset: Address = Address(abs(offset))
         let address: Address
-        
+
         if (offset >= 0) {
             address = SP &+ absoluteOffset
             CFlag = (SP & 0x00FF) + absoluteOffset > 0xFF
@@ -106,10 +106,10 @@ public extension CPU {
             CFlag = (address & 0x00FF) <= (SP & 0x00FF)
             HFlag = (address & 0x000F) <= (SP & 0x000F)
         }
-        
+
         HL = address
     }
-    
+
     /// `NOP` - Do nothing
     public func NOP() {}
 
@@ -145,33 +145,33 @@ public extension CPU {
         let carry: UInt8 = CFlag ? 1 : 0
         let high = UInt16(register) &- UInt16(value) &- UInt16(carry)
         let low  = (register & 0x0F) &- (value & 0x0F) &- carry
-        
+
         ZFlag = high == 0
         NFlag = true
         HFlag = low > 0x0F
         CFlag = high > 0xFF
-        
+
         register = register &- value &- carry
     }
-    
+
     /// `ADC r, (a16)`
     public mutating func SBC(_ register: inout UInt8, address: Address) {
         ADC(&register, memory.read(address))
     }
-    
+
     /// `SUB r, d8`
     public mutating func SUB(_ register: inout UInt8, _ value: UInt8) {
         let high = UInt16(register) &- UInt16(value)
         let low  = (register & 0x0F) &- (value & 0x0F)
-        
+
         ZFlag = high == 0
         NFlag = true
         HFlag = low > 0x0F
         CFlag = high > 0xFF
-        
+
         register = register &- value
     }
-    
+
     /// `SUB r, (a16)`
     public mutating func SUB(_ register: inout UInt8, address: Address) {
         SUB(&register, memory.read(address))
@@ -191,5 +191,5 @@ public extension CPU {
     public mutating func XOR(_ register: inout UInt8, address: Address) {
         XOR(&register, memory.read(address))
     }
-    
+
 }

@@ -1,7 +1,7 @@
 extension CPU {
     mutating func step() {
         let opcode: UInt8 = memory.read(PC)
-    
+
         switch opcode {
         case 0x00: NOP(implied(cycles: 4)) // NOP
         case 0x01: LD(&BC, immediate16(cycles: 12)) // LD BC, d16

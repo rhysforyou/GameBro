@@ -4,11 +4,11 @@ extension Address {
     init(_ page: UInt8, _ offset: UInt8) {
         self = UInt16(page) << 8 | UInt16(offset)
     }
-    
+
     var page: UInt8 {
         return UInt8(self >> 8)
     }
-    
+
     var offset: UInt8 {
         return UInt8(self & 0xFF)
     }
@@ -17,7 +17,7 @@ extension Address {
 public struct Memory {
     // 8kb of main RAM
     private var RAM = Array<UInt8>(repeating: 0x00, count: 0x2000)
-    
+
     public func read(_ address: Address) -> UInt8 {
         switch address {
         case 0x0000..<0x4000: // 16k cart ROM bank #0
@@ -43,17 +43,17 @@ public struct Memory {
         default:
             fatalError("Not yet implemented")
         }
-        
+
         return 0x00
     }
-    
+
     public func read16(_ address: Address) -> UInt16 {
         let low  = read(address)
         let high = read(address + 1)
-        
+
         return UInt16(high) << 8 | UInt16(low)
     }
-    
+
     public mutating func write(_ address: Address, _ value: UInt8) {
         switch address {
         case 0x0000..<0x4000: // 16k cart ROM bank #0
@@ -80,11 +80,11 @@ public struct Memory {
             fatalError("Not yet implemented")
         }
     }
-    
+
     public mutating func write16(_ address: Address, _ value: UInt16) {
         let low  = UInt8(value & 0x00FF)
         let high = UInt8(value >> 8)
-        
+
         write(address, low)
         write(address + 1, high)
     }
