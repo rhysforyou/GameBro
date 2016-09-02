@@ -37,6 +37,7 @@ public extension CPU {
         ADD(&register, memory.read(address))
     }
 
+    /// `AND r, d8`
     public mutating func AND(_ register: inout UInt8, _ value: UInt8) {
         register = register & value
 
@@ -46,13 +47,9 @@ public extension CPU {
         CFlag = false
     }
 
+    /// `AND r, (a16)`
     public mutating func AND(_ register: inout UInt8, address: Address) {
-        register = register & memory.read(address)
-
-        ZFlag = register == 0
-        NFlag = false
-        HFlag = true
-        CFlag = false
+        AND(&A, memory.read(address))
     }
 
     /// `LD nn, n` - 8-bit load into register
@@ -79,17 +76,20 @@ public extension CPU {
     public mutating func LD(_ register: inout UInt8, address: Address) {
         register = memory.read(address)
     }
-    
+
+    /// `LD ($FF00 + a8), d8`
     public mutating func LDH(offset: UInt8, _ value: UInt8) {
         let address = Address(0xFF, offset)
         memory.write(address, value)
     }
-    
+
+    /// `LD r, ($FF00 + a8)`
     public mutating func LDH(_ register: inout UInt8, offset: UInt8) {
         let address = Address(0xFF, offset)
         register = memory.read(address)
     }
-    
+
+    /// `LD HL, ($FF00 + a8)`
     public mutating func LDHL(offset: Int8) {
         ZFlag = false
         NFlag = false
@@ -110,8 +110,10 @@ public extension CPU {
         HL = address
     }
     
+    /// `NOP` - Do nothing
     public func NOP() {}
 
+    /// `OR r, d8`
     public mutating func OR(_ register: inout UInt8, _ value: UInt8) {
         register = register | value
 
@@ -121,27 +123,23 @@ public extension CPU {
         CFlag = false
     }
 
+    /// `OR r, (a16)`
     public mutating func OR(_ register: inout UInt8, address: Address) {
-        register = register | memory.read(address)
-
-        ZFlag = register == 0
-        NFlag = false
-        HFlag = false
-        CFlag = false
+        OR(&register, memory.read(address))
     }
-    
+
+    /// `PUSH d16`
     public mutating func PUSH(_ value: UInt16) {
         SP -= 2
         memory.write16(SP, value)
     }
-    
+
+    /// `POP r`
     public mutating func POP(_ register: inout UInt16) {
         register = memory.read16(SP)
         SP += 2
     }
-    
-    
-    
+
     /// `ADC r, d8`
     public mutating func SBC(_ register: inout UInt8, _ value: UInt8) {
         let carry: UInt8 = CFlag ? 1 : 0
@@ -161,7 +159,7 @@ public extension CPU {
         ADC(&register, memory.read(address))
     }
     
-    /// `ADD r, d8`
+    /// `SUB r, d8`
     public mutating func SUB(_ register: inout UInt8, _ value: UInt8) {
         let high = UInt16(register) &- UInt16(value)
         let low  = (register & 0x0F) &- (value & 0x0F)
@@ -174,11 +172,12 @@ public extension CPU {
         register = register &- value
     }
     
-    /// `ADD r, (a16)`
+    /// `SUB r, (a16)`
     public mutating func SUB(_ register: inout UInt8, address: Address) {
-        ADD(&register, memory.read(address))
+        SUB(&register, memory.read(address))
     }
 
+    /// `XOR r, d8`
     public mutating func XOR(_ register: inout UInt8, _ value: UInt8) {
         register = register ^ value
 
@@ -188,13 +187,9 @@ public extension CPU {
         CFlag = false
     }
 
+    /// `XOR r, (a16)`
     public mutating func XOR(_ register: inout UInt8, address: Address) {
-        register = register ^ memory.read(address)
-
-        ZFlag = register == 0
-        NFlag = false
-        HFlag = false
-        CFlag = false
+        XOR(&register, memory.read(address))
     }
     
 }
