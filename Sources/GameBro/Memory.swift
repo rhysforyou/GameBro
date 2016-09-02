@@ -14,6 +14,22 @@ extension Address {
     }
 }
 
+/// An implementation of the Game Boy's mapped memory
+///
+/// ## Memory Layout
+///
+///     +-----------------+------------------------------+
+///     | 0x0000..<0x4000 | 16k cart ROM bank #0         |
+///     | 0x4000..<0x8000 | 16k switchable cart ROM bank |
+///     | 0x8000..<0xA000 | 8k VRAM                      |
+///     | 0xA000..<0xC000 | 8k switchable RAM bank       |
+///     | 0xC000..<0xE000 | 8k internal RAM              |
+///     | 0xE000..<0xFE00 | Echo of 8k internal RAM      |
+///     | 0xFE00..<0xFEA0 | Sprite attrib memory (OAM)   |
+///     | 0xFF00..<0xFF4C | I/O Ports                    |
+///     | 0xFF80..<0xFFFF | Zero-page RAM                |
+///     | 0xFFFF          | Interrupt enable register    |
+///     +-----------------+------------------------------+
 public struct Memory {
     // 8kb of main RAM
     private var RAM = Array<UInt8>(repeating: 0x00, count: 0x2000)

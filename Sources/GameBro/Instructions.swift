@@ -112,7 +112,7 @@ public extension CPU {
     /// `LD ($FF00 + a8), d8` - Write value to memory at offset from 0xFF00
     ///
     /// - note: Used for quick writes to I/0 ports, zero page RAM and interrupt register
-    /// - seealso: [Memory]
+    /// - seealso: [Memory](http://extremely.online/GameBro/Structs/Memory.html)
     /// - parameter offset: the address offset from 0xFF00
     /// - parameter value:  the value to be written
     public mutating func LDH(offset: UInt8, _ value: UInt8) {
@@ -123,7 +123,7 @@ public extension CPU {
     /// `LD r, ($FF00 + a8)` - Read value from memory at offset from 0xFF00 into register
     ///
     /// - note: Used for quick writes to I/0 ports, zero page RAM and interrupt register
-    /// - seealso: [Memory]
+    /// - seealso: [Memory](http://extremely.online/GameBro/Structs/Memory.html)
     /// - parameter register: the register to be written to
     /// - parameter offset:   the address offset from 0xFF00
     public mutating func LDH(_ register: inout UInt8, offset: UInt8) {
@@ -134,7 +134,7 @@ public extension CPU {
     /// `LD HL, ($FF00 + a8)` - Read 16-bit valuw from memory at offset from 0xFF00 into HL register
     ///
     /// - note: Used for quick writes to I/0 ports, zero page RAM and interrupt register
-    /// - seealso: [Memory]
+    /// - seealso: [Memory](http://extremely.online/GameBro/Structs/Memory.html)
     /// - parameter offset:   the address offset from 0xFF00
     public mutating func LDHL(offset: Int8) {
         ZFlag = false
