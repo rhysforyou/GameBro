@@ -116,7 +116,7 @@ public extension CPU {
     /// - parameter offset: the address offset from 0xFF00
     /// - parameter value:  the value to be written
     public mutating func LDH(offset: UInt8, _ value: UInt8) {
-        let address = Address(0xFF, offset)
+        let address = Address(page: 0xFF, offset: offset)
         memory.write(address, value)
     }
 
@@ -127,7 +127,7 @@ public extension CPU {
     /// - parameter register: the register to be written to
     /// - parameter offset:   the address offset from 0xFF00
     public mutating func LDH(_ register: inout UInt8, offset: UInt8) {
-        let address = Address(0xFF, offset)
+        let address = Address(page: 0xFF, offset: offset)
         register = memory.read(address)
     }
 

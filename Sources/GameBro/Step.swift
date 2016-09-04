@@ -1,4 +1,6 @@
 extension CPU {
+
+    /// Perform the instruction at the program counter
     mutating func step() {
         let opcode: UInt8 = memory.read(PC)
 
