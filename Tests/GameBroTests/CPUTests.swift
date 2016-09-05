@@ -569,6 +569,14 @@ class CPUTests : XCTestCase {
             0x94,       // SUB A, H
             0x3E, 0x10, // LD A $10
             0x95,       // SUB A, L
+
+            // Test flags
+            0x3E, 0x10, // LD A, $10
+            0xD6, 0x02, // SUB A, $02 (half borrow)
+            0x3E, 0x10, // LD A, $10
+            0xD6, 0x11, // SUB A, $11 (full borrow)
+            0x3E, 0x10, // LD A, $10
+            0xD6, 0x10, // SUB A, $10 (zero)
         ]
 
         // Load program into RAM
@@ -595,6 +603,19 @@ class CPUTests : XCTestCase {
         XCTAssertEqual(cpu.A, 0x0B)
         2.times { cpu.step() }
         XCTAssertEqual(cpu.A, 0x0A)
+
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.HFlag, true)
+        XCTAssertEqual(cpu.CFlag, false)
+        XCTAssertEqual(cpu.ZFlag, false)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.HFlag, true)
+        XCTAssertEqual(cpu.CFlag, true)
+        XCTAssertEqual(cpu.ZFlag, false)
+        2.times { cpu.step() }
+        XCTAssertEqual(cpu.HFlag, false)
+        XCTAssertEqual(cpu.CFlag, false)
+        XCTAssertEqual(cpu.ZFlag, true)
     }
 
     func testAND() {
@@ -757,6 +778,40 @@ class CPUTests : XCTestCase {
         XCTAssertEqual(cpu.A, 0b0110)
     }
 
+    func testCP() {
+        var cpu = CPU(memory: Memory())
+        let program: [UInt8] = [
+            0x31, 0xFF, 0xFF, // LD SP, $FFFF
+            0x3E, 0x10, // LD A, $10
+            0xFE, 0x02, // CP A, $02 (half borrow)
+            0xFE, 0x11, // CP A, $11 (full borrow)
+            0xFE, 0x10, // CP A, $10 (zero)
+        ]
+
+        // Load program into RAM
+        for (offset, byte) in program.enumerated() {
+            cpu.memory.write(0xC000 + Address(offset), byte)
+        }
+
+        // Start program execution from RAM
+        cpu.PC = 0xC000
+
+        3.times { cpu.step() }
+        XCTAssertEqual(cpu.HFlag, true)
+        XCTAssertEqual(cpu.CFlag, false)
+        XCTAssertEqual(cpu.ZFlag, false)
+
+        cpu.step()
+        XCTAssertEqual(cpu.HFlag, true)
+        XCTAssertEqual(cpu.CFlag, true)
+        XCTAssertEqual(cpu.ZFlag, false)
+
+        cpu.step()
+        XCTAssertEqual(cpu.HFlag, false)
+        XCTAssertEqual(cpu.CFlag, false)
+        XCTAssertEqual(cpu.ZFlag, true)
+    }
+
     static var allTests = [
         ("testLD", testLD),
         ("testEcho", testEcho),
@@ -768,6 +823,7 @@ class CPUTests : XCTestCase {
         ("testAND", testAND),
         ("testOR", testOR),
         ("testXOR", testXOR),
+        ("testCP", testCP),
     ]
 
 }

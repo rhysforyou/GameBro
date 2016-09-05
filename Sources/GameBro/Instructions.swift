@@ -69,6 +69,25 @@ public extension CPU {
         AND(&A, memory.read(address))
     }
 
+    /// `CP r, d8` - Compare value with register
+    ///
+    /// - parameter register: the register to be compared to
+    /// - parameter value:    the value to be compared
+    public mutating func CP(_ register: inout UInt8, _ value: UInt8) {
+        ZFlag = register &- value == 0
+        NFlag = true
+        HFlag = Int(register & 0xF) - Int(value & 0xF) < 0
+        CFlag = Int(register) - Int(value) < 0
+    }
+
+    /// `CP r, d8` - Compare value at address with register
+    ///
+    /// - parameter register: the register to be compared to
+    /// - parameter address:  the address of the value to be compared
+    public mutating func CP(_ register: inout UInt8, address: Address) {
+        CP(&register, memory.read(address))
+    }
+
     /// `LD r, d8` - Load 8-bit value into register
     ///
     /// - parameter register: the register to be written to
@@ -202,13 +221,11 @@ public extension CPU {
     /// - parameter value:    the value to be subtracted
     public mutating func SBC(_ register: inout UInt8, _ value: UInt8) {
         let carry: UInt8 = CFlag ? 1 : 0
-        let high = UInt16(register) &- UInt16(value) &- UInt16(carry)
-        let low  = (register & 0x0F) &- (value & 0x0F) &- carry
 
-        ZFlag = high == 0
+        ZFlag = register &- value &- carry == 0
         NFlag = true
-        HFlag = low > 0x0F
-        CFlag = high > 0xFF
+        HFlag = Int(register & 0xF) - Int(value & 0xF) - Int(carry) < 0
+        CFlag = Int(register) - Int(value) - Int(carry) < 0
 
         register = register &- value &- carry
     }
@@ -218,7 +235,7 @@ public extension CPU {
     /// - parameter register: the register to be subtracted from
     /// - parameter address:  the address of the value to be subtracted
     public mutating func SBC(_ register: inout UInt8, address: Address) {
-        ADC(&register, memory.read(address))
+        SBC(&register, memory.read(address))
     }
 
     /// `SUB r, d8` - Subtract value from register
@@ -226,13 +243,10 @@ public extension CPU {
     /// - parameter register: the register to be subtracted from
     /// - parameter value:    the value to be subtracted
     public mutating func SUB(_ register: inout UInt8, _ value: UInt8) {
-        let high = UInt16(register) &- UInt16(value)
-        let low  = (register & 0x0F) &- (value & 0x0F)
-
-        ZFlag = high == 0
+        ZFlag = register &- value == 0
         NFlag = true
-        HFlag = low > 0x0F
-        CFlag = high > 0xFF
+        HFlag = Int(register & 0xF) - Int(value & 0xF) < 0
+        CFlag = Int(register) - Int(value) < 0
 
         register = register &- value
     }

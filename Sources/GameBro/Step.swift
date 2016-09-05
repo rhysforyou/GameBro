@@ -189,14 +189,14 @@ extension CPU {
         case 0xB5: OR(&A, register(L, cycles: 4)) // OR A, L
         case 0xB6: OR(&A, address: register16(HL, cycles: 8)) // OR A, (HL)
         case 0xB7: OR(&A, register(A, cycles: 4)) // OR A, A
-        case 0xB8: break
-        case 0xB9: break
-        case 0xBA: break
-        case 0xBB: break
-        case 0xBC: break
-        case 0xBD: break
-        case 0xBE: break
-        case 0xBF: break
+        case 0xB8: CP(&A, register(B, cycles: 4)) // CP A, B
+        case 0xB9: CP(&A, register(C, cycles: 4)) // CP A, C
+        case 0xBA: CP(&A, register(D, cycles: 4)) // CP A, D
+        case 0xBB: CP(&A, register(E, cycles: 4)) // CP A, E
+        case 0xBC: CP(&A, register(H, cycles: 4)) // CP A, H
+        case 0xBD: CP(&A, register(L, cycles: 4)) // CP A, L
+        case 0xBE: CP(&A, address: register16(HL, cycles: 8)) // CP A, (HL)
+        case 0xBF: CP(&A, register(A, cycles: 4)) // CP A, A
         case 0xC0: break
         case 0xC1: POP(&BC); implied(cycles: 12) // POP BC
         case 0xC2: break
@@ -218,13 +218,13 @@ extension CPU {
         case 0xD2: break
         case 0xD4: break
         case 0xD5: PUSH(register16(DE, cycles: 16)) // PUSH DE
-        case 0xD6: break
+        case 0xD6: SUB(&A, immediate(cycles: 8))
         case 0xD7: break
         case 0xD8: break
         case 0xD9: break
         case 0xDA: break
         case 0xDC: break
-        case 0xDE: break
+        case 0xDE: SBC(&A, immediate(cycles: 8)) // SBC A, d8
         case 0xDF: break
         case 0xE0: LDH(offset: immediate(cycles: 12), A) // LD ($FF00+a8), A
         case 0xE1: POP(&HL); implied(cycles: 12) // POP HL
@@ -248,7 +248,7 @@ extension CPU {
         case 0xF9: LD(&SP, register16(HL, cycles: 8)) // LD SP, HL
         case 0xFA: LD(&A, address: immediate16(cycles: 16)) // LD A, (a16)
         case 0xFB: break
-        case 0xFE: break
+        case 0xFE: CP(&A, immediate(cycles: 8)) // CP A, d8
         case 0xFF: break
         default: fatalError("Invalid opcode")
         }
