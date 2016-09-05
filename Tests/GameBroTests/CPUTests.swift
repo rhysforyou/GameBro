@@ -18,13 +18,13 @@ class CPUTests : XCTestCase {
         cpu.LD(&cpu.B, cpu.A)     // LD B, A
         cpu.LD(&cpu.A, UInt8(10)) // LD A, 10
 
-        XCTAssertEqual(cpu.A, UInt8(10), "Accumulator should have value of 10")
-        XCTAssertEqual(cpu.B, UInt8(20), "B register should have value of 20")
+        XCTAssertEqual(cpu.A, UInt8(10))
+        XCTAssertEqual(cpu.B, UInt8(20))
 
         cpu.LD(address: Address(0xDFFF), cpu.A)  // LD $DFFF, A
         cpu.LD(&cpu.C, address: Address(0xDFFF)) // LD C, $DFFF
 
-        XCTAssertEqual(cpu.C, UInt8(10), "C register should have value of 10")
+        XCTAssertEqual(cpu.C, UInt8(10))
     }
 
     func testEcho() {
@@ -33,7 +33,7 @@ class CPUTests : XCTestCase {
         cpu.LD(address: Address(0xC000), UInt8(0xFF))
         cpu.LD(&cpu.A, address: Address(0xE000))
 
-        XCTAssertEqual(cpu.A, UInt8(0xFF), "Echo should contain same data as main RAM")
+        XCTAssertEqual(cpu.A, UInt8(0xFF))
     }
 
     func testStep() {

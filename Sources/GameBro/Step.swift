@@ -9,64 +9,64 @@ extension CPU {
         case 0x01: LD(&BC, immediate16(cycles: 12)) // LD BC, d16
         case 0x02: LD(address: BC, register(A, cycles: 8)) // LD (BC), A
         case 0x03: break
-        case 0x04: break
-        case 0x05: break
+        case 0x04: INC(&B); implied(cycles: 4) // INC B
+        case 0x05: DEC(&B); implied(cycles: 4) // DEC B
         case 0x06: LD(&B, immediate(cycles: 8)) // LD B, d8
         case 0x07: break
         case 0x08: LD(address: immediate16(cycles: 20), SP)
         case 0x09: break
         case 0x0A: LD(&A, absoluteBC(cycles: 8)) // LD A, (BC)
         case 0x0B: break
-        case 0x0C: break
-        case 0x0D: break
+        case 0x0C: INC(&C); implied(cycles: 4) // INC C
+        case 0x0D: DEC(&D); implied(cycles: 4) // DEC C
         case 0x0E: LD(&C, immediate(cycles: 8)) // LD C, d8
         case 0x0F: break
         case 0x10: break
         case 0x11: LD(&DE, immediate16(cycles: 12)) // LD DE, d16
         case 0x12: LD(address: DE, register(A, cycles: 8)) // LD (DE), A
         case 0x13: break
-        case 0x14: break
-        case 0x15: break
+        case 0x14: INC(&D); implied(cycles: 4) // INC D
+        case 0x15: DEC(&D); implied(cycles: 4) // DEC D
         case 0x16: LD(&D, immediate(cycles: 8)) // LD D, d8
         case 0x17: break
         case 0x18: break
         case 0x19: break
         case 0x1A: LD(&A, absoluteDE(cycles: 8)) // LD A, (DE)
         case 0x1B: break
-        case 0x1C: break
-        case 0x1D: break
+        case 0x1C: INC(&E); implied(cycles: 4) // INC E
+        case 0x1D: DEC(&E); implied(cycles: 4) // DEC E
         case 0x1E: LD(&E, immediate(cycles: 8)) // LD E, d8
         case 0x1F: break
         case 0x20: break
         case 0x21: LD(&HL, immediate16(cycles: 12)) // LD HL, d16
         case 0x22: LD(address: absoluteHLI(cycles: 8), A) // LD (HL+), A
         case 0x23: break
-        case 0x24: break
-        case 0x25: break
+        case 0x24: INC(&H); implied(cycles: 4) // INC H
+        case 0x25: DEC(&H); implied(cycles: 4) // DEC H
         case 0x26: LD(&H, immediate(cycles: 8)) // LD H, d8
         case 0x27: break
         case 0x28: break
         case 0x29: break
         case 0x2A: LD(&A, address: absoluteHLI(cycles: 8)) // LD A, (HL+)
         case 0x2B: break
-        case 0x2C: break
-        case 0x2D: break
+        case 0x2C: INC(&L); implied(cycles: 4) // INC L
+        case 0x2D: DEC(&L); implied(cycles: 4) // DEC L
         case 0x2E: LD(&L, immediate(cycles: 8)) // LD L, d8
         case 0x2F: break
         case 0x30: break
         case 0x31: LD(&SP, immediate16(cycles: 12)) // LD SP, d16
         case 0x32: LD(address: absoluteHLD(cycles: 8), A) // LD (HL-), A
         case 0x33: break
-        case 0x34: break
-        case 0x35: break
+        case 0x34: INC(address: immediate16(cycles: 12)) // INC (a16)
+        case 0x35: DEC(address: immediate16(cycles: 12)) // DEC (a16)
         case 0x36: LD(address: HL, immediate(cycles: 12)) // LD (HL), d8
         case 0x37: break
         case 0x38: break
         case 0x39: break
         case 0x3A: LD(&A, address: absoluteHLD(cycles: 8)) // LD A, (HL-)
         case 0x3B: break
-        case 0x3C: break
-        case 0x3D: break
+        case 0x3C: INC(&A); implied(cycles: 4) // INC A
+        case 0x3D: DEC(&A); implied(cycles: 4) // DEC A
         case 0x3E: LD(&A, immediate(cycles: 8)) // LD A, d8
         case 0x3F: break
         case 0x40: LD(&B, register(B, cycles: 4)) // LD B, B

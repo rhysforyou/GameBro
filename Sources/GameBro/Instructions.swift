@@ -88,6 +88,54 @@ public extension CPU {
         CP(&register, memory.read(address))
     }
 
+    /// `DEC r` - Decrement the value in the provided register
+    ///
+    /// - parameter register: The register to be decremented
+    public mutating func DEC(_ register: inout UInt8) {
+        ZFlag = register &- 1 == 0
+        NFlag = false
+        HFlag = (register & 0x0F) &- 1 > 0x0F
+
+        register = register &- 1
+    }
+
+    /// `DEC (a16)` - Decrement the value at the provided memory location
+    ///
+    /// - parameter address: The address of the value to be decremented
+    public mutating func DEC(address: Address) {
+        let value = memory.read(address)
+
+        ZFlag = value &- 1 == 0
+        NFlag = false
+        HFlag = (value & 0x0F) &- 1 > 0x0F
+
+        memory.write(address, value &- 1)
+    }
+
+    /// `INC r` - Increment the value in the provided register
+    ///
+    /// - parameter register: The register to be incremented
+    public mutating func INC(_ register: inout UInt8) {
+        ZFlag = register &+ 1 == 0
+        NFlag = false
+        HFlag = (register & 0x0F) &+ 1 > 0x0F
+
+        register = register &+ 1
+    }
+
+    /// `INC (a16)` - Increment the value at the provided memory location
+    ///
+    /// - parameter address: The address of the value to be incremented
+    public mutating func INC(address: Address) {
+        let value = memory.read(address)
+
+        ZFlag = value &+ 1 == 0
+        NFlag = false
+        HFlag = (value & 0x0F) &+ 1 > 0x0F
+
+        memory.write(address, value &+ 1)
+    }
+
     /// `LD r, d8` - Load 8-bit value into register
     ///
     /// - parameter register: the register to be written to
